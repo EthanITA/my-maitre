@@ -14,7 +14,7 @@ services:
       context: ./be
       dockerfile: Dockerfile
     ports:
-      - '5000:5000'
+      - '3000:3000'
     environment:
       - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
     depends_on:
