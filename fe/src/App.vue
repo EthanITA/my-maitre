@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { Tabs, Tab } from 'flowbite-vue'
 const activeTab = ref('first')
