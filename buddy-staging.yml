@@ -1,0 +1,29 @@
+- pipeline: "Staging deploy on push"
+  events:
+  - type: "PUSH"
+    refs:
+    - "refs/heads/staging"
+  no_skip_to_most_recent: true
+  fail_on_prepare_env_warning: true
+  actions:
+  - action: "[139.59.208.97] Execute docker-compose up --build -d"
+    type: "SSH_COMMAND"
+    login: "root"
+    host: "139.59.208.97"
+    env_key: "secure!i5OH1ymo8QBH+93kWyh+8A==.0BiJOhHoFCi1+xdstygQbA=="
+    authentication_mode: "ENV_KEY"
+    commands:
+    - "cd mymaitre"
+    - "docker-compose down"
+    - "git fetch --all && git reset --hard origin/staging"
+    - "export POSTGRES_USER=$POSTGRES_DB"
+    - "export POSTGRES_USER=$POSTGRES_USER"
+    - "export POSTGRES_PASSWORD=$POSTGRES_PASSWORD"
+    - "docker-compose up --build -d"
+    run_as_script: true
+  - action: "Send notification to Telegram Channel"
+    type: "TELEGRAM"
+    trigger_time: "ON_FAILURE"
+    content: "[#$BUDDY_EXECUTION_ID] $BUDDY_PIPELINE_NAME failed run by [$BUDDY_INVOKER_NAME]($BUDDY_INVOKER_URL)"
+    parse_mode: "HTML"
+    integration_hash: "xrWygqPGELe3KWNxe698jZX1nY"
