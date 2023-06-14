@@ -31,6 +31,17 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
 
+  flyway:
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    environment:
+      - DB_NAME=${POSTGRES_DB}
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+    depends_on:
+      - db
+
   nginx:
     image: nginx:stable-alpine
     volumes:
