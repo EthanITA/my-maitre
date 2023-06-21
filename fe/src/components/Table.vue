@@ -7,33 +7,44 @@ import {
   TableHeadCell,
   TableRow,
 } from "flowbite-vue";
-import { ref } from "vue";
 
-const headers = ref<string[]>([]);
-const data = ref<
-  {
-    key: string;
-    value: any;
-  }[]
->([]);
+const props = defineProps<{
+  headers: string[];
+  data: any[];
+  prefix?: string; // prefix for translation
+}>();
 </script>
 
 <template>
   <Table>
     <TableHead>
       <TableHeadCell v-for="header in headers"
-        >{{ $t(`table.${header}`) }}
+        >{{ $t(`table.${prefix ? prefix + "." : ""}${header}`) }}
       </TableHeadCell>
-      <TableHeadCell v-if="$slots.actions" class="sr-only"
-        >{{ $t("table.actions") }}
-      </TableHeadCell>
+      <TableHeadCell class="sr-only">{{ $t("table.actions") }} </TableHeadCell>
     </TableHead>
     <TableBody>
-      <TableRow v-for="{ key, value } in data">
+      <TableRow v-if="data.length" v-for="d in data">
         <template v-for="header in headers">
-          <slot :value="value" :name="header" v-if="$slots[header]" />
-          <TableCell v-else>{{ value[header] }}</TableCell>
+          <TableCell class="text-left">
+            <div v-if="$slots[header]">
+              <slot :value="d" :name="header" />
+            </div>
+            <div v-else>
+              {{ d[header] }}
+            </div>
+          </TableCell>
         </template>
+        <TableCell>
+          <slot name="actions" />
+        </TableCell>
+      </TableRow>
+      <TableRow v-else>
+        <TableCell :colspan="headers.length + 1">
+          <div class="text-center text-lg">
+            {{ $t("table.noData") }}
+          </div>
+        </TableCell>
       </TableRow>
     </TableBody>
   </Table>

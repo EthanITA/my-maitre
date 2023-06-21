@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { IconDefinition } from "@fortawesome/fontawesome-common-types";
 
 import { FunctionalComponent, HTMLAttributes, VNodeProps } from "vue";
 import { faUtensils } from "@fortawesome/free-solid-svg-icons";
 import { HomeIcon } from "@heroicons/vue/24/solid";
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
 const items: {
   title: string;
@@ -17,7 +17,7 @@ const items: {
     to: "/",
   },
   {
-    title: "menu",
+    title: "menu.label",
     icon: faUtensils,
     to: "/menu",
   },
