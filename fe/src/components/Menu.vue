@@ -8,15 +8,14 @@ const menus = ref<Menu[]>([
   {
     id: 1,
     name: "Menu 1",
-    plates: 3,
     available_dates: [],
     available_hours: [],
     description: "Menu 1 description",
     icon: "https://picsum.photos/200",
     hide_price: false,
     location_id: 1,
-    order_type: "delivery",
-    visibility: "visible",
+    order_type: 1,
+    visibility: true,
   },
 ]);
 </script>
@@ -41,6 +40,7 @@ const menus = ref<Menu[]>([
       <template #price="{ value }">
         {{ value.price }}
       </template>
+      <template #plates> 1 </template>
       <template #actions>
         <Button pill square outline>
           <ArrowRightIcon class="h-4 w-4" />

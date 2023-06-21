@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "flowbite-vue";
 
-const props = defineProps<{
+defineProps<{
   headers: string[];
   data: any[];
   prefix?: string; // prefix for translation

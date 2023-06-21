@@ -4,8 +4,11 @@ import it from "./it.ts";
 
 export default createI18n({
   locale: "it",
+  allowComposition: true,
+  fallbackLocale: "it",
+  silentTranslationWarn: true,
   messages: {
-    it,
     en,
+    it,
   },
 });
