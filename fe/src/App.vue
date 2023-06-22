@@ -3,7 +3,11 @@
     <Sidebar class="fixed top-0 left-0 z-40 w-64 border-r-[1px]" />
     <div class="sm:ml-64 flex-col flex w-full">
       <Header class="border-b-[1px] w-full h-16" />
-      <router-view class="h-full p-4 bg-gray-100" />
+      <main class="py-10 h-full bg-gray-100">
+        <div class="px-4 sm:px-6 lg:px-8">
+          <router-view />
+        </div>
+      </main>
     </div>
   </div>
 </template>

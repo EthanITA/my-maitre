@@ -3,6 +3,7 @@ import { Button } from "flowbite-vue";
 import { ref } from "vue";
 import Table from "./Table.vue";
 import { ArrowRightIcon } from "@heroicons/vue/24/solid";
+import Container from "./Container.vue";
 // @ts-ignore
 const menus = ref<Menu[]>([
   {
@@ -21,17 +22,11 @@ const menus = ref<Menu[]>([
 </script>
 
 <template>
-  <div class="flex flex-col gap-8">
-    <div class="flex justify-between">
-      <div class="pr-16">
-        <p class="font-semibold text-xl">{{ $t("menu.label") }}</p>
-        <p>{{ $t("menu.description") }}</p>
-      </div>
-      <div class="flex items-center gap-2">
-        <Button color="green"> {{ $t("menu.customize") }}</Button>
-        <Button class="whitespace-nowrap">{{ $t("menu.add") }}</Button>
-      </div>
-    </div>
+  <Container title="menu.label" description="menu.description">
+    <template #action>
+      <Button color="green"> {{ $t("menu.customize") }}</Button>
+      <Button>{{ $t("menu.add") }}</Button>
+    </template>
     <Table
       prefix="menu"
       :headers="['name', 'plates', 'visibility']"
@@ -47,6 +42,6 @@ const menus = ref<Menu[]>([
         </Button>
       </template>
     </Table>
-  </div>
+  </Container>
 </template>
 <style scoped></style>
