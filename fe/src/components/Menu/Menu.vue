@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Button } from "flowbite-vue";
 import { ref } from "vue";
-import Table from "./Table.vue";
+import Table from "../Table.vue";
 import { ArrowRightIcon } from "@heroicons/vue/24/solid";
-import Container from "./Container.vue";
+import Container from "../Container.vue";
 // @ts-ignore
 const menus = ref<Menu[]>([
   {
@@ -24,8 +24,9 @@ const menus = ref<Menu[]>([
 <template>
   <Container title="menu.label" description="menu.description">
     <template #action>
-      <Button color="green"> {{ $t("menu.customize") }}</Button>
-      <Button>{{ $t("menu.add") }}</Button>
+      <Button @click="$router.push('/menu/create')">{{
+        $t("menu.add")
+      }}</Button>
     </template>
     <Table
       prefix="menu"

@@ -19,7 +19,7 @@ defineProps<{
   <Table>
     <TableHead>
       <TableHeadCell v-for="header in headers"
-        >{{ $t(`table.${prefix ? prefix + "." : ""}${header}`) }}
+        >{{ $t(`${prefix ? prefix + "." : ""}${header}`) }}
       </TableHeadCell>
       <TableHeadCell class="sr-only">{{ $t("table.actions") }} </TableHeadCell>
     </TableHead>
