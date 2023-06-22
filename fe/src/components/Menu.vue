@@ -29,7 +29,7 @@ const menus = ref<Menu[]>([
       </div>
       <div class="flex items-center gap-2">
         <Button color="green"> {{ $t("menu.customize") }}</Button>
-        <Button>{{ $t("menu.add") }}</Button>
+        <Button class="whitespace-nowrap">{{ $t("menu.add") }}</Button>
       </div>
     </div>
     <Table
