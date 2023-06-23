@@ -7,3 +7,5 @@ class OrderTypes {
     public details: any // JSONB type
   ) {}
 }
+
+export default OrderTypes;

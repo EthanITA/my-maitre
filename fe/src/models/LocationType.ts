@@ -5,3 +5,5 @@ class LocationType {
     public description: string
   ) {}
 }
+
+export default LocationType;

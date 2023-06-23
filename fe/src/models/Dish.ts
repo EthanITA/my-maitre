@@ -11,3 +11,5 @@ class Dish {
     public characteristic_id: number
   ) {}
 }
+
+export default Dish;

@@ -27,3 +27,5 @@ class Menu {
     public order_type: number
   ) {}
 }
+
+export default Menu;

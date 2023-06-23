@@ -5,3 +5,5 @@ class Characteristic {
     public icon: string
   ) {}
 }
+
+export default Characteristic;

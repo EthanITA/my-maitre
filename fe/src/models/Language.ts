@@ -5,3 +5,5 @@ class Language {
     public language_code: string
   ) {}
 }
+
+export default Language;

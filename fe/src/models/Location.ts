@@ -18,3 +18,5 @@ class LocationRestaurant {
     public languages: number
   ) {}
 }
+
+export default LocationRestaurant;

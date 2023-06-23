@@ -12,3 +12,5 @@ class User {
     public hashed_password: string
   ) {}
 }
+
+export default User;

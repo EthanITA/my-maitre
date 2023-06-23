@@ -5,3 +5,5 @@ class Allergen {
     public icon: string
   ) {}
 }
+
+export default Allergen;

@@ -12,3 +12,5 @@ class Order {
     public status: string
   ) {}
 }
+
+export default Order;

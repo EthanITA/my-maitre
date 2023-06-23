@@ -5,3 +5,5 @@ class UnitOfMeasure {
     public description: string
   ) {}
 }
+
+export default UnitOfMeasure;
