@@ -1,17 +1,12 @@
-/**
- * CREATE TABLE Menus (
- *     id SERIAL PRIMARY KEY,
- *     name TEXT NOT NULL,
- *     description TEXT,
- *     icon VARCHAR(255),
- *     hide_price BOOLEAN DEFAULT FALSE,
- *     visibility BOOLEAN DEFAULT TRUE,
- *     available_hours JSONB,
- *     available_dates DATE[],
- *     location_id INT REFERENCES Location(id),
- *     order_type INT REFERENCES OrderTypes(id)
- * );
- */
+export const menuTypes = [
+  "standard",
+  "breakfast",
+  "lunch",
+  "dinner",
+  "roomService",
+];
+
+export const visibilities = ["everyday", "days", "dates"];
 
 class Menu {
   constructor(
