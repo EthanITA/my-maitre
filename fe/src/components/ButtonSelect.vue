@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Button, ButtonGroup } from "flowbite-vue";
+// @ts-ignore
 import { ButtonVariant } from "flowbite-vue/dist_types/components/Button/types";
 
 type Option = {
@@ -16,10 +17,6 @@ defineProps<{
   color?: ButtonVariant;
 }>();
 </script>
-"text-blue-700 border-blue-700 dark:border-blue-500 dark:text-blue-500
-hover:text-white dark:hover:text-white dark:hover:bg-blue-600 text-blue-700
-border border-blue-700 focus text-sm text-center dark:border-blue-500
-dark:text-blue-500 hover:text-white dark:hover:text-white
 <template>
   <div>
     <label
