@@ -1,3 +1,5 @@
+import { Weekday } from "./Custom/DatetimeTypes";
+
 export const menuTypes = [
   "standard",
   "breakfast",
@@ -6,7 +8,9 @@ export const menuTypes = [
   "roomService",
 ];
 
-export const visibilities = ["everyday", "days", "dates"];
+export const visibilities = ["everyday", "weekdays", "days"] as const;
+
+export type MenuAvailability = [number, number] | Weekday[] | string[];
 
 class Menu {
   constructor(
@@ -15,11 +19,12 @@ class Menu {
     public description: string,
     public icon: string,
     public hide_price: boolean,
-    public visibility: boolean,
-    public available_hours: any, // JSONB type
-    public available_dates: Date[],
     public location_id: number,
-    public order_type: number
+    public order_type: string,
+    public visibility?: {
+      type: (typeof visibilities)[number];
+      availability: MenuAvailability;
+    }
   ) {}
 }
 
