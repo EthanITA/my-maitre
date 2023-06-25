@@ -49,6 +49,11 @@ class Menu extends API<MenuItem> implements MenuItem {
     return super.create(this);
   }
 
+  static async getAll(): Promise<MenuItem[]> {
+    const menu = new Menu({} as MenuItem);
+    return menu.getAll();
+  }
+
   async get(): Promise<MenuItem> {
     return super.get(this.id);
   }
