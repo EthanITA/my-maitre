@@ -4,19 +4,17 @@ import { ref } from "vue";
 import Table from "../Table.vue";
 import { ArrowRightIcon } from "@heroicons/vue/24/solid";
 import Container from "../Container.vue";
+import { MenuItem } from "../../models/Menu.ts";
 // @ts-ignore
-const menus = ref<Menu[]>([
+const menus = ref<MenuItem[]>([
   {
     id: 1,
     name: "Menu 1",
-    available_dates: [],
-    available_hours: [],
     description: "Menu 1 description",
     icon: "https://picsum.photos/200",
     hide_price: false,
     location_id: 1,
-    order_type: 1,
-    visibility: true,
+    order_type: "",
   },
 ]);
 </script>
