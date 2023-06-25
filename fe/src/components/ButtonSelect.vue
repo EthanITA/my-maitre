@@ -26,6 +26,7 @@ defineProps<{
     >
     <ButtonGroup class="shadow-none" :class="{ 'flex-col': vertical }">
       <Button
+        type="button"
         :color="color || 'default'"
         :disabled="disabled || false"
         :outline="

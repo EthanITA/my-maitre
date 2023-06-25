@@ -15,6 +15,7 @@ const menus = ref<MenuItem[]>([
     hide_price: false,
     location_id: 1,
     order_type: "",
+    visibility: {},
   },
 ]);
 </script>
