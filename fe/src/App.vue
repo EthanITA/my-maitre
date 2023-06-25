@@ -9,9 +9,21 @@
         </div>
       </main>
     </div>
+    <Teleport to="body" v-if="loaderStore.loading">
+      <div
+        class="fixed top-0 left-0 w-full h-full bg-gray-300/70 z-50 flex justify-center items-center"
+      >
+        <div
+          class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-700"
+        />
+      </div>
+    </Teleport>
   </div>
 </template>
 <script setup lang="ts">
 import Sidebar from "./components/Sidebar.vue";
 import Header from "./components/Header.vue";
+import loader from "./store/loader";
+
+const loaderStore = loader();
 </script>

@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from "axios";
+import loader from "../../decorator/loader.ts";
 
 class API<T> {
   apiUrl: string;
@@ -10,26 +11,27 @@ class API<T> {
     });
   }
 
+  @loader
   async get(id: number): Promise<T> {
     const response = await this.axios.get(`${this.path}/${id}`);
     return response.data;
   }
-
+  @loader
   async getAll(): Promise<T[]> {
     const response = await this.axios.get(`${this.path}`);
     return response.data;
   }
-
+  @loader
   async create(data: T): Promise<T> {
     const response = await this.axios.post(`${this.path}`, data);
     return response.data;
   }
-
+  @loader
   async update(id: number, data: T): Promise<T> {
     const response = await this.axios.put(`${this.path}/${id}`, data);
     return response.data;
   }
-
+  @loader
   async delete(id: number): Promise<T> {
     const response = await this.axios.delete(`${this.path}/${id}`);
     return response.data;
