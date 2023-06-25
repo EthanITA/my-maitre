@@ -1,15 +1,14 @@
 import os
 
 from flask import Flask
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 
 app = Flask(__name__)
 cors = CORS(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
+CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
 
 
 @app.route('/')
-@cross_origin()
 def hello_world():  # put application's code here
     return 'Hello World!'
 
