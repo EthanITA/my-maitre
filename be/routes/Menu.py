@@ -1,8 +1,8 @@
 from flask import request, jsonify
 from flask.views import MethodView
 
-from be.models.Menu import Menu
-from be.models.db import db, app
+from .models.Menu import Menu
+from .models.db import db, app
 
 
 class MenuView(MethodView):

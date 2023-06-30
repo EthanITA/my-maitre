@@ -1,4 +1,4 @@
-from be.models.db import db
+from .db import db
 
 
 class Menu(db.Model):

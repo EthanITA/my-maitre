@@ -1,7 +1,7 @@
 # Dockerfile for Flask
 FROM python:3.11
 
-WORKDIR /app
+WORKDIR /be
 
 ENV FLASK_ENV=production
 
