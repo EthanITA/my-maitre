@@ -95,26 +95,10 @@
                     <PlusIcon class="w-5 h-5" />
                   </Button>
                 </div>
-                <div class="flex flex-wrap gap-1">
-                  <Badge
-                    v-for="day in form.visibility.availability"
-                    :key="day"
-                    class="justify-between !text-xs pr-1 font-bold flex items-center gap-1 py-1 px-3"
-                  >
-                    <p>{{ new Date(day).toLocaleDateString() }}</p>
-                    <div
-                      class="rounded-full p-0.5 cursor-pointer"
-                      @click="
-                        form.visibility.availability = _.filter(
-                          form.visibility.availability as string[],
-                          (d) => d !== day
-                        )
-                      "
-                    >
-                      <XMarkIcon class="w-3 h-3 text-red-700" />
-                    </div>
-                  </Badge>
-                </div>
+                <DaysList
+                  class="flex-wrap"
+                  v-model="form.visibility.availability as string[]"
+                />
               </div>
             </template>
           </template>
@@ -131,17 +115,18 @@
 <script setup lang="ts">
 import Container from "../Container.vue";
 import Sheet from "../Sheet.vue";
-import { Alert, Badge, Button, Input } from "flowbite-vue";
+import { Alert, Button, Input } from "flowbite-vue";
 import Menu, { MenuItem, menuTypes, visibilities } from "../../models/Menu";
 import Divider from "../Divider.vue";
 import { reactive, ref } from "vue";
 import ButtonSelect from "../ButtonSelect.vue";
 import Toggle from "../Toggle.vue";
 import DaySelect from "../DaySelect.vue";
-import { PlusIcon, XMarkIcon } from "@heroicons/vue/24/solid";
+import { PlusIcon } from "@heroicons/vue/24/solid";
 import { Weekday } from "../../models/Custom/DatetimeTypes.ts";
 import _ from "lodash";
 import { useRouter } from "vue-router";
+import DaysList from "../DaysList.vue";
 
 const props = defineProps<{
   form?: MenuItem;
