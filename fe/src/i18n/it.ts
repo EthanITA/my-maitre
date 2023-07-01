@@ -51,4 +51,15 @@ export default {
     6: "Sabato",
     7: "Domenica",
   },
+  statusCode: {
+    200: "Richiesta eseguita con successo",
+    201: "Risorsa creata con successo",
+    400: "Richiesta non valida",
+    401: "Non autorizzato",
+    403: "Vietato",
+    404: "Non trovato",
+    500: "Errore interno del server",
+    502: "Gateway non valido",
+    503: "Servizio non disponibile",
+  },
 };

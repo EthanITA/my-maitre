@@ -30,7 +30,7 @@ onMounted(async () => {
       </template>
       <template #plates> 1 </template>
       <template #actions>
-        <Button pill square outline>
+        <Button pill square outline @click="$router.push('/menu/edit/1')">
           <ArrowRightIcon class="h-4 w-4" />
         </Button>
       </template>

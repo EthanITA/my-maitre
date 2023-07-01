@@ -141,12 +141,15 @@ import DaySelect from "../DaySelect.vue";
 import { PlusIcon, XMarkIcon } from "@heroicons/vue/24/solid";
 import { Weekday } from "../../models/Custom/DatetimeTypes.ts";
 import _ from "lodash";
+import notification from "../../store/notification.ts";
 
 const props = defineProps<{
   form?: MenuItem;
+  isUpdating?: boolean;
 }>();
 
 const form = reactive<MenuItem>({
+  id: props.form?.id ?? 0,
   name: props.form?.name ?? "",
   description: props.form?.description ?? "",
   icon: props.form?.icon ?? "",
@@ -156,7 +159,7 @@ const form = reactive<MenuItem>({
   location_id: props.form?.location_id ?? 0,
 });
 
-const enableVisilibity = ref<boolean>(false);
+const enableVisilibity = ref<boolean>(Object.keys(form.visibility).length > 0);
 // yyyy-MM-dd
 const selectedDate = ref<string>(new Date().toISOString().split("T")[0]);
 const errorText = ref<string>("");
@@ -170,13 +173,26 @@ const handleAddDate = () => {
 };
 
 const handleSubmit = async () => {
-  errorText.value = "";
-  const isValid = Menu.validate(form);
-  if (!isValid) {
-    errorText.value = "menu.creation.error";
-    return;
+  try {
+    errorText.value = "";
+    const isValid = Menu.validate(form);
+    if (!isValid) {
+      errorText.value = "menu.creation.error";
+      return;
+    }
+    const menu = new Menu(form);
+    const f = props.isUpdating ? menu.update : menu.create;
+    await f.bind(menu)();
+    notification().addNotification({
+      type: "success",
+      message: "menu.creation.success",
+    });
+  } catch (e) {
+    notification().addNotification({
+      type: "danger",
+      message: "menu.error.submit",
+    });
   }
-  await new Menu(form).create();
 };
 </script>
 

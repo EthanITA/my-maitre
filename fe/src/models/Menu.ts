@@ -49,14 +49,12 @@ class Menu extends API<MenuItem> implements MenuItem {
     return super.create(this);
   }
 
-  static async getAll(): Promise<MenuItem[]> {
-    const menu = new Menu({} as MenuItem);
-    return menu.getAll();
+  static async getAll(): Promise<MenuItem[] | never> {
+    return new API<MenuItem>("menus").getAll();
   }
 
-  async get(): Promise<MenuItem | never> {
-    if (!this.id) throw new Error("No id provided");
-    return super.get(this.id);
+  static get(id: NonNullable<MenuItem["id"]>): Promise<MenuItem | never> {
+    return new API<MenuItem>("menus").get(id);
   }
 
   async delete(): Promise<MenuItem> {

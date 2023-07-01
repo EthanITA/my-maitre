@@ -13,6 +13,11 @@ const routes = [
         name: "CreateMenu",
         component: () => import("../views/Menu/MenuCreationView.vue"),
       },
+      {
+        path: "edit/:id",
+        name: "MenuEdit",
+        component: () => import("../views/Menu/MenuEditView.vue"),
+      },
     ],
   },
 ];
