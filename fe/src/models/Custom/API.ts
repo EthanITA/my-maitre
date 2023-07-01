@@ -27,12 +27,11 @@ class API<T> {
       const errorCode = error.response?.status || error.code;
 
       if (this.loader) loaderStore.setLoading(false);
-      if (this.notification)
-        notificationStore.addNotification({
-          type: "danger",
-          message: `status.${errorCode}`,
-          timeout: 7000,
-        });
+      notificationStore.addNotification({
+        type: "danger",
+        message: `status.${errorCode}`,
+        timeout: 7000,
+      });
       return Promise.reject(error);
     };
 
