@@ -8,14 +8,15 @@
     </label>
     <div class="flex gap-0.5">
       <Button
-        type="button"
-        :color="color || 'default'"
-        :outline="!isDaySelected(day)"
-        @click="handleClick(day)"
         v-for="day in days"
+        :color="color || 'default'"
+        :disabled="disabled"
+        :outline="!isDaySelected(day)"
         class="focus:!ring-0"
         pill
         square
+        type="button"
+        @click="handleClick(day)"
       >
         <div class="h-5 w-5">
           {{ $t(`week.${day}`)[0] }}
@@ -25,7 +26,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { Button } from "flowbite-vue";
 // @ts-ignore
 import { ButtonVariant } from "flowbite-vue/dist_types/components/Button/types";
@@ -37,6 +38,7 @@ const props = defineProps<{
   label?: string;
   color?: ButtonVariant;
   multiple?: boolean;
+  disabled?: boolean;
 }>();
 
 const dayRefs = ref<Button | null>([]);

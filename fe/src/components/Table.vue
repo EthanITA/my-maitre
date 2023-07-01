@@ -21,7 +21,9 @@ defineProps<{
       <TableHeadCell v-for="header in headers"
         >{{ $t(`${prefix ? prefix + "." : ""}${header}`) }}
       </TableHeadCell>
-      <TableHeadCell class="sr-only">{{ $t("table.actions") }} </TableHeadCell>
+      <TableHeadCell class="right-0 sr-only"
+        >{{ $t("table.actions") }}
+      </TableHeadCell>
     </TableHead>
     <TableBody>
       <TableRow v-if="data.length" v-for="d in data">
@@ -35,7 +37,7 @@ defineProps<{
             </div>
           </TableCell>
         </template>
-        <TableCell>
+        <TableCell class="sticky right-0 bg-white/70 shadow-lg">
           <slot name="actions" :value="d" />
         </TableCell>
       </TableRow>
