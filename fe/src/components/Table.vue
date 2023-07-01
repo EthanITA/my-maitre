@@ -36,7 +36,7 @@ defineProps<{
           </TableCell>
         </template>
         <TableCell>
-          <slot name="actions" />
+          <slot name="actions" :value="d" />
         </TableCell>
       </TableRow>
       <TableRow v-else>

@@ -29,8 +29,13 @@ onMounted(async () => {
         {{ value.price }}
       </template>
       <template #plates> 1 </template>
-      <template #actions>
-        <Button pill square outline @click="$router.push('/menu/edit/1')">
+      <template #actions="{ value }">
+        <Button
+          pill
+          square
+          outline
+          @click="$router.push(`/menu/edit/${value.id}`)"
+        >
           <ArrowRightIcon class="h-4 w-4" />
         </Button>
       </template>
