@@ -14,7 +14,7 @@ export const visibilities = ["everyday", "weekdays", "days"] as const;
 export type MenuAvailability = [string, string] | Weekday[] | string[];
 
 export interface MenuItem {
-  id: number;
+  id?: number;
   name: string;
   description: string;
   icon: string;
@@ -31,7 +31,7 @@ class Menu extends API<MenuItem> implements MenuItem {
   description!: string;
   hide_price!: boolean;
   icon!: string;
-  id!: number;
+  id?: number;
   location_id!: number;
   name!: string;
   order_type!: (typeof menuTypes)[number];
@@ -54,15 +54,18 @@ class Menu extends API<MenuItem> implements MenuItem {
     return menu.getAll();
   }
 
-  async get(): Promise<MenuItem> {
+  async get(): Promise<MenuItem | never> {
+    if (!this.id) throw new Error("No id provided");
     return super.get(this.id);
   }
 
   async delete(): Promise<MenuItem> {
+    if (!this.id) throw new Error("No id provided");
     return super.delete(this.id);
   }
 
   async update(): Promise<MenuItem> {
+    if (!this.id) throw new Error("No id provided");
     return super.update(this.id, this);
   }
 
