@@ -6,7 +6,7 @@
     <form @submit.prevent="handleSubmit">
       <Sheet class="flex-col gap-4 flex">
         <template #header v-if="errorText">
-          <Alert type="danger" closable>
+          <Alert type="danger">
             {{ $t(errorText) }}
           </Alert>
         </template>
