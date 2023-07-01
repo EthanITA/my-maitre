@@ -6,6 +6,10 @@
   no_skip_to_most_recent: true
   fail_on_prepare_env_warning: true
   actions:
+  - action: "Send notification to Telegram Channel"
+    type: "TELEGRAM"
+    content: "[#$BUDDY_EXECUTION_ID] $BUDDY_PIPELINE_NAME run by [$BUDDY_INVOKER_NAME]($BUDDY_INVOKER_URL)"
+    integration_hash: "xrWygqPGELe3KWNxe698jZX1nY"
   - action: "[139.59.208.97] Execute docker-compose up --build -d"
     type: "SSH_COMMAND"
     login: "root"
@@ -28,6 +32,12 @@
     - key: "VITE_API_URL"
       value: "http://139.59.208.97/api"
       type: "VAR"
+  - action: "Send notification to Telegram Channel"
+    type: "TELEGRAM"
+    content: "[#$BUDDY_EXECUTION_ID] $BUDDY_PIPELINE_NAME completed by [$BUDDY_INVOKER_NAME]($BUDDY_INVOKER_URL)"
+    file_attachments:
+    - ""
+    integration_hash: "xrWygqPGELe3KWNxe698jZX1nY"
   - action: "Send notification to Telegram Channel"
     type: "TELEGRAM"
     trigger_time: "ON_FAILURE"
