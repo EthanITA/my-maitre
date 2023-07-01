@@ -1,12 +1,12 @@
 <template>
   <MenuCreation
     v-if="menu?.id"
-    is-updating
     :errorText="errorText"
     :form="menu"
+    is-updating
   />
 </template>
-<script setup lang="ts">
+<script lang="ts" setup>
 import MenuCreation from "../../components/Menu/MenuCreation.vue";
 import { useRoute, useRouter } from "vue-router";
 import Menu from "../../models/Menu";
@@ -23,13 +23,7 @@ Menu.get(Number(menuId))
   .then((m) => {
     menu.value = new Menu(m);
   })
-  .catch(() => {
-    notificationStore.addNotification({
-      type: "danger",
-      message: "menu.error.not_found",
-    });
-    router.push("/menu");
-  });
+  .catch(() => router.push("/menu"));
 </script>
 
 <style scoped></style>

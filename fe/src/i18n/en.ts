@@ -51,9 +51,11 @@ export default {
     6: "Saturday",
     7: "Sunday",
   },
-  statusCode: {
+  status: {
+    ERR_NETWORK: "Network error",
     200: "Request completed successfully",
     201: "Resource created successfully",
+    204: "Resource deleted successfully",
     400: "Invalid request",
     401: "Unauthorized",
     403: "Forbidden",

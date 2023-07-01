@@ -51,9 +51,11 @@ export default {
     6: "Sabato",
     7: "Domenica",
   },
-  statusCode: {
+  status: {
+    ERR_NETWORK: "Errore di rete",
     200: "Richiesta eseguita con successo",
     201: "Risorsa creata con successo",
+    204: "Risorsa eliminata con successo",
     400: "Richiesta non valida",
     401: "Non autorizzato",
     403: "Vietato",
