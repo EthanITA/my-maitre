@@ -141,6 +141,7 @@ import DaySelect from "../DaySelect.vue";
 import { PlusIcon, XMarkIcon } from "@heroicons/vue/24/solid";
 import { Weekday } from "../../models/Custom/DatetimeTypes.ts";
 import _ from "lodash";
+import { useRouter } from "vue-router";
 
 const props = defineProps<{
   form?: MenuItem;
@@ -157,6 +158,8 @@ const form = reactive<MenuItem>({
   visibility: props.form?.visibility ?? {},
   location_id: props.form?.location_id ?? 0,
 });
+
+const router = useRouter();
 
 const enableVisilibity = ref<boolean>(Object.keys(form.visibility).length > 0);
 // yyyy-MM-dd
@@ -181,6 +184,7 @@ const handleSubmit = async () => {
   const menu = new Menu(form);
   const f = props.isUpdating ? menu.update : menu.create;
   await f.bind(menu)();
+  await router.push("/menu");
 };
 </script>
 
