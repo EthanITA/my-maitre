@@ -5,7 +5,11 @@
       <Header class="border-b-[1px] w-full h-16" />
       <main class="py-10 h-full bg-gray-100">
         <div class="px-4 sm:px-6 lg:px-8">
-          <router-view />
+          <router-view v-slot="{ Component }">
+            <transition mode="out-in" name="router">
+              <component :is="Component" />
+            </transition>
+          </router-view>
         </div>
       </main>
     </div>
@@ -19,3 +23,14 @@ import Header from "./components/Header.vue";
 import Notifications from "./components/Notifications.vue";
 import Loader from "./components/Loader.vue";
 </script>
+<style scoped>
+.router-enter-active,
+.router-leave-active {
+  transition: opacity 100ms ease;
+}
+
+.router-enter-from,
+.router-leave-to {
+  opacity: 0;
+}
+</style>
