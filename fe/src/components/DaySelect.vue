@@ -8,6 +8,7 @@
     </label>
     <div class="flex gap-0.5">
       <Button
+        type="button"
         :color="color || 'default'"
         :outline="!isDaySelected(day)"
         @click="handleClick(day)"
