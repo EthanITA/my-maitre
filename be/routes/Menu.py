@@ -1,5 +1,4 @@
-from flask.views import MethodView
-
+from .API import RouteMethodView
 from .CRUD import CRUD
 from .db import db
 
@@ -16,6 +15,8 @@ class Menu(db.Model):
     visibility = db.Column(db.JSON, default={})
 
 
-class MenuView(CRUD, MethodView):
+class MenuView(CRUD, RouteMethodView):
+    route = Menu.__tablename__
+
     def __init__(self):
         super().__init__(Menu)
