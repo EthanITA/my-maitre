@@ -17,6 +17,10 @@ class Category extends API<CategoryItem> implements CategoryItem {
     Object.assign(this, categoryItem);
   }
 
+  async create(): Promise<CategoryItem> {
+    return super.create(this);
+  }
+
   static async getAll(): Promise<CategoryItem[] | never> {
     return new API<CategoryItem>("category").getAll();
   }
