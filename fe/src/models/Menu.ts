@@ -1,5 +1,6 @@
 import { days, Weekday } from "./Custom/DatetimeTypes";
 import API from "./Custom/API";
+import Validate from "./Custom/Validate.ts";
 
 export const menuTypes = [
   "standard",
@@ -70,8 +71,8 @@ class Menu extends API<MenuItem> implements MenuItem {
   static validate(obj: any): boolean {
     const menu = new Menu(obj);
     const result: any[] = [];
-    result.push(menu.name);
-    result.push(menu.description);
+    result.push(Validate.string(menu.name));
+    result.push(Validate.string(menu.description));
     result.push(menuTypes.includes(menu.order_type));
 
     // hh:mm

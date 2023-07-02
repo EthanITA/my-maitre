@@ -40,6 +40,14 @@ export default {
   },
   category: {
     label: "Categories",
+    description: "Use categories to better organize your menu.",
+    add: "Create category",
+    fields: {
+      plates: "Plates",
+      avgPrice: "Average price",
+      minPrice: "Minimum price",
+      maxPrice: "Maximum price",
+    },
   },
   table: {
     noData: "No data",
