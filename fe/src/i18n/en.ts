@@ -38,6 +38,9 @@ export default {
       days: "Specific days",
     },
   },
+  category: {
+    label: "Categories",
+  },
   table: {
     noData: "No data",
     actions: "Actions",

@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import menu from "./menu";
+import category from "./category";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -8,6 +9,7 @@ const routes: RouteRecordRaw[] = [
     component: () => import("../views/HomeView.vue"),
   },
   ...menu,
+  ...category,
 ];
 
 const router = createRouter({

@@ -38,6 +38,9 @@ export default {
       days: "Specifici giorni",
     },
   },
+  category: {
+    label: "Categorie",
+  },
   table: {
     noData: "Nessun dato",
     actions: "Azioni",
