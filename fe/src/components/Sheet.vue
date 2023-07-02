@@ -8,7 +8,7 @@
       </div>
       <slot />
     </div>
-    <div class="p-4 bg-white/30 border-t-[1px] flex">
+    <div v-if="$slots.footer" class="p-4 bg-white/30 border-t-[1px] flex">
       <slot name="footer" />
     </div>
   </div>
