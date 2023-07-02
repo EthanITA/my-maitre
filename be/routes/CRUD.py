@@ -27,6 +27,7 @@ class CRUD:
         data = request.get_json()
         with app.app_context():
             model_elem = self.model(**{field: data[field] for field in self.fields})
+            delattr(model_elem, 'id')
             db.session.add(model_elem)
             db.session.commit()  # commit the transaction
             model_elem = db.session.query(self.model).filter_by(id=model_elem.id).first()
