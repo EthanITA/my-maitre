@@ -42,11 +42,16 @@ export default {
     label: "Categorie",
     description: "Utilizza le categorie per organizzare al meglio il tuo menu.",
     add: "Crea categoria",
+    creation: {
+      submit: "Salva categoria",
+      error: "Nome è obbligatorio!",
+    },
     fields: {
       plates: "Piatti",
       avgPrice: "Prezzo medio",
       minPrice: "Prezzo minimo",
       maxPrice: "Prezzo massimo",
+      name: "Nome",
     },
   },
   table: {

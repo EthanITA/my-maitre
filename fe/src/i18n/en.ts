@@ -42,6 +42,10 @@ export default {
     label: "Categories",
     description: "Use categories to better organize your menu.",
     add: "Create category",
+    creation: {
+      submit: "Save category",
+      error: "Name is mandatory!",
+    },
     fields: {
       plates: "Plates",
       avgPrice: "Average price",

@@ -7,7 +7,7 @@
     </template>
 
     <Table
-      :headers="['plates', 'avgPrice', 'minPrice', 'maxPrice']"
+      :headers="['name', 'plates', 'avgPrice', 'minPrice', 'maxPrice']"
       :data="categories"
       prefix="category.fields"
     >

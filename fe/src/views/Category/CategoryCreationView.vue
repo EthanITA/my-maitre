@@ -1,5 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import CategoryCreation from "../../components/Category/CategoryCreation.vue";
+</script>
 
-<template></template>
+<template>
+  <CategoryCreation />
+</template>
 
 <style scoped></style>
