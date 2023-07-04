@@ -46,7 +46,7 @@
           square
           @click="$router.push(`/menu/edit/${value.id}`)"
         >
-          <ArrowRightIcon class="h-4 w-4" />
+          <PencilIcon class="h-4 w-4" />
         </Button>
       </template>
     </Table>
@@ -56,7 +56,7 @@
 import { Button } from "flowbite-vue";
 import { onMounted, ref } from "vue";
 import Table from "../Table.vue";
-import { ArrowRightIcon } from "@heroicons/vue/24/solid";
+import { PencilIcon } from "@heroicons/vue/24/solid";
 import Container from "../Container.vue";
 import Menu, { MenuItem } from "../../models/Menu.ts";
 import DaySelect from "../DaySelect.vue";
