@@ -61,8 +61,8 @@ class Category extends API<CategoryItem> implements CategoryItem {
     dishes = dishes.filter((dish) => dish.category_id === this.id);
     return {
       numberOfDishes: dishes.length,
-      minPrice: Math.min(...dishes.map((dish) => dish.price)),
-      maxPrice: Math.max(...dishes.map((dish) => dish.price)),
+      minPrice: dishes.length && Math.min(...dishes.map((dish) => dish.price)),
+      maxPrice: dishes.length && Math.max(...dishes.map((dish) => dish.price)),
       avgPrice:
         dishes.reduce((acc, dish) => acc + toNumber(dish.price), 0) /
         (dishes.length || 1),
