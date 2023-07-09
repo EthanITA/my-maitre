@@ -38,7 +38,9 @@ defineProps<{
           </TableCell>
         </template>
         <TableCell class="sticky right-0 bg-white/70 shadow-lg">
-          <slot name="actions" :value="d" />
+          <div class="flex gap-1 float-right">
+            <slot name="actions" :value="d" />
+          </div>
         </TableCell>
       </TableRow>
       <TableRow v-else>
