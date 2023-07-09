@@ -21,7 +21,7 @@ onMounted(async () => {
     <p class="text-gray-500">
       {{ $t("category.missing.description") }}
     </p>
-    <Button class="mx-auto mt-4" @click="$router.push('/menu/create')">
+    <Button class="mx-auto mt-4" @click="$router.push('/category/create')">
       {{ $t("category.add") }}
     </Button>
   </Sheet>
