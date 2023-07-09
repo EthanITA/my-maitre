@@ -19,8 +19,8 @@
             })
           "
         >
-          {{ $t("dish.addToCategory") }}</Button
-        >
+          {{ $t("dish.addToCategory") }}
+        </Button>
       </div>
       <Table
         :data="sortBy(dishes[category.id], 'name')"
@@ -37,6 +37,16 @@
             <PencilIcon class="h-4 w-4" />
           </Button>
         </template>
+        <template #price="{ value }">
+          {{ value.price }}
+          {{
+            $t(
+              `dish.unitOfMeasure.${
+                unitOfMeasures[value.unit_of_measure_id]?.measure
+              }`
+            )
+          }}</template
+        >
       </Table>
     </div>
   </Container>
@@ -51,6 +61,11 @@ import { onMounted, ref } from "vue";
 import { sortBy } from "lodash";
 import Dish, { DishItem } from "../../models/Dish.ts";
 import Category, { CategoryItem } from "../../models/Category.ts";
+import UnitOfMeasure, { UnitOfMeasureItem } from "../../models/UnitOfMeasure";
+
+const unitOfMeasures = ref<
+  Record<NonNullable<UnitOfMeasureItem["id"]>, UnitOfMeasureItem>
+>([]);
 
 const dishes = ref<Record<DishItem["category_id"], DishItem[]>>({});
 const categories = ref<
@@ -75,6 +90,14 @@ onMounted(async () => {
     acc[dishItem.category_id].push(dishItem);
     return acc;
   }, {});
+
+  unitOfMeasures.value = (await UnitOfMeasure.getAll()).reduce(
+    (acc, unitOfMeasureItem) => {
+      acc[unitOfMeasureItem.id as number] = unitOfMeasureItem;
+      return acc;
+    },
+    {}
+  );
 });
 </script>
 

@@ -40,7 +40,7 @@
               :model-value="form.unit_of_measure_id"
               :options="
                 unitOfMeasures.map((unitOfMeasure) => ({
-                  name: unitOfMeasure.measure,
+                  name: $t(`dish.unitOfMeasure.${unitOfMeasure.measure}`),
                   value: unitOfMeasure.id,
                 }))
               "

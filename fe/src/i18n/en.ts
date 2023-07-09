@@ -86,6 +86,13 @@ export default {
       frozenProduct: "Frozen product",
       bio: "Bio",
     },
+    unitOfMeasure: {
+      "€": "€",
+      "€/l": "€/l",
+      "€/kg": "€/kg",
+      "€/hg": "€/hg",
+      "€/chalice": "€/chalice",
+    },
     fields: {
       name: "Name",
       description: "Description",
