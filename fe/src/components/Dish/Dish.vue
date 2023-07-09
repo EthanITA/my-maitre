@@ -29,12 +29,25 @@
       >
         <template #actions="{ value }">
           <Button
+            :disabled="value.loading"
             outline
             pill
             square
             @click="$router.push(`/dish/edit/${value.id}`)"
           >
             <PencilIcon class="h-4 w-4" />
+          </Button>
+
+          <Button
+            :disabled="value.loading"
+            :loading="value.loading"
+            color="red"
+            outline
+            pill
+            square
+            @click="deleteDish(value)"
+          >
+            <TrashIcon v-if="!value.loading" class="h-4 w-4" />
           </Button>
         </template>
         <template #price="{ value }">
@@ -45,8 +58,8 @@
                 unitOfMeasures[value.unit_of_measure_id]?.measure
               }`
             )
-          }}</template
-        >
+          }}
+        </template>
       </Table>
     </div>
   </Container>
@@ -55,7 +68,7 @@
 import Container from "../Container.vue";
 import { Button } from "flowbite-vue";
 import Table from "../Table.vue";
-import { PencilIcon } from "@heroicons/vue/24/solid";
+import { PencilIcon, TrashIcon } from "@heroicons/vue/24/solid";
 import { onMounted, ref } from "vue";
 
 import { sortBy } from "lodash";
@@ -76,6 +89,22 @@ const categories = ref<
     }
   >
 >({});
+
+const deleteDish = (
+  dish: DishItem & {
+    loading?: boolean;
+  }
+) => {
+  dish.loading = true;
+  new Dish(dish)
+    .delete()
+    .then(() => {
+      dishes.value[dish.category_id] = dishes.value[dish.category_id].filter(
+        (dishItem) => dishItem.id !== dish.id
+      );
+    })
+    .finally(() => (dish.loading = false));
+};
 
 onMounted(async () => {
   categories.value = (await Category.getAll()).reduce((acc, categoryItem) => {
