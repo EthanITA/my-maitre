@@ -1,6 +1,7 @@
 import inspect
 
 from flask import request, jsonify, make_response
+from sqlalchemy.exc import IntegrityError
 
 from .db import db, app
 
@@ -51,9 +52,12 @@ class CRUD:
             model_elem = db.session.query(self.model).filter_by(id=id).first()
             if model_elem is None:
                 return make_response('Not found', 404)
-            db.session.delete(model_elem)
-            db.session.commit()
-            return make_response(jsonify({'result': True}), 204)
+            try:
+                db.session.delete(model_elem)
+                db.session.commit()
+                return make_response(jsonify({'result': True}), 204)
+            except IntegrityError:
+                return make_response(jsonify({'result': False}), 409)
 
     @property
     def fields(self) -> list[str]:

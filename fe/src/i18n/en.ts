@@ -129,6 +129,7 @@ export default {
     401: "Unauthorized",
     403: "Forbidden",
     404: "Not found",
+    409: "Conflict",
     500: "Internal server error",
     502: "Bad gateway",
     503: "Service unavailable",
