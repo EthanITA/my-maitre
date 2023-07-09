@@ -2,7 +2,11 @@
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 import { FunctionalComponent, HTMLAttributes, VNodeProps } from "vue";
-import { faLayerGroup, faUtensils } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBowlFood,
+  faLayerGroup,
+  faUtensils,
+} from "@fortawesome/free-solid-svg-icons";
 import { HomeIcon } from "@heroicons/vue/24/solid";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
@@ -26,6 +30,11 @@ const items: {
     icon: faLayerGroup,
     to: "/category",
   },
+  {
+    title: "dish.label",
+    icon: faBowlFood,
+    to: "/dish",
+  },
 ];
 </script>
 
@@ -40,7 +49,8 @@ const items: {
         <li v-for="item in items" :key="item.to">
           <router-link
             :to="item.to"
-            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100"
+            active-class="!bg-blue-300 "
+            class="flex items-center p-2 text-blue-700 rounded-lg hover:bg-blue-100"
           >
             <font-awesome-icon
               v-if="typeof item.icon === 'object'"
