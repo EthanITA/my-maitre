@@ -18,9 +18,7 @@ const props = defineProps<{
   multiple?: boolean;
 }>();
 
-const emit = defineEmits<{
-  "update:modelValue": (value: Option["value"] | Option["value"][]) => void;
-}>();
+const emit = defineEmits(["update:modelValue"]);
 
 const isSelected = (option: Option): boolean => {
   if (props.multiple) {
