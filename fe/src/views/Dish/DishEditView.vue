@@ -1,25 +1,25 @@
 <template>
-  <MenuCreation
-    v-if="menu?.id"
+  <DishCreation
+    v-if="dish?.id"
     :errorText="errorText"
-    :form="menu"
+    :form="dish"
     is-updating
   />
 </template>
 <script lang="ts" setup>
-import MenuCreation from "../../components/Menu/MenuCreation.vue";
+import DishCreation from "../../components/Dish/DishCreation.vue";
 import { useRoute, useRouter } from "vue-router";
-import Menu from "../../models/Menu";
 import { ref } from "vue";
+import Dish from "../../models/Dish.ts";
 
 const route = useRoute();
 const router = useRouter();
-const menuId = route.params.id as string;
-const menu = ref<Menu>();
+const dishId = route.params.id as string;
+const dish = ref<Dish>();
 const errorText = ref<string>("");
-Menu.get(Number(menuId))
-  .then((m) => {
-    menu.value = new Menu(m);
+Dish.get(Number(dishId))
+  .then((d) => {
+    dish.value = new Dish(d);
   })
   .catch(() => router.push("/menu"));
 </script>

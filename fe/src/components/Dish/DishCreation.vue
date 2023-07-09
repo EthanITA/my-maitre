@@ -19,7 +19,7 @@
         <div class="grid grid-cols-2 gap-2">
           <Select
             :label="$t('dish.fields.category')"
-            :model-value="categoryId"
+            :model-value="form.category_id"
             :options="
               categories.map((category) => ({
                 name: category.name,
