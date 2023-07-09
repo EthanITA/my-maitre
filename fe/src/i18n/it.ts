@@ -47,7 +47,7 @@ export default {
       error: "Nome è obbligatorio!",
     },
     fields: {
-      plates: "Piatti",
+      numberOfDishes: "Numero piatti",
       avgPrice: "Prezzo medio",
       minPrice: "Prezzo minimo",
       maxPrice: "Prezzo massimo",

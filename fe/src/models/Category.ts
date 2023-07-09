@@ -1,10 +1,19 @@
 import API from "./Custom/API.ts";
 import Validate from "./Custom/Validate.ts";
+import { DishItem } from "./Dish.ts";
+import { toNumber } from "lodash";
 
 export interface CategoryItem {
   id?: number;
   name: string;
   icon: string;
+}
+
+export interface CategoryStats {
+  numberOfDishes: number;
+  minPrice: number;
+  maxPrice: number;
+  avgPrice: number;
 }
 
 class Category extends API<CategoryItem> implements CategoryItem {
@@ -46,6 +55,18 @@ class Category extends API<CategoryItem> implements CategoryItem {
     const result: any[] = [];
     result.push(Validate.string(category.name));
     return result.every((item) => item);
+  }
+
+  getStats(dishes: DishItem[]): CategoryStats {
+    dishes = dishes.filter((dish) => dish.category_id === this.id);
+    return {
+      numberOfDishes: dishes.length,
+      minPrice: Math.min(...dishes.map((dish) => dish.price)),
+      maxPrice: Math.max(...dishes.map((dish) => dish.price)),
+      avgPrice:
+        dishes.reduce((acc, dish) => acc + toNumber(dish.price), 0) /
+        (dishes.length || 1),
+    };
   }
 }
 

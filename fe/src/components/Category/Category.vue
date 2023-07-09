@@ -8,7 +8,7 @@
 
     <Table
       :data="categories"
-      :headers="['name', 'plates', 'avgPrice', 'minPrice', 'maxPrice']"
+      :headers="['name', 'numberOfDishes', 'avgPrice', 'minPrice', 'maxPrice']"
       prefix="category.fields"
     >
       <template #actions="{ value }">
@@ -32,6 +32,15 @@
           <TrashIcon v-if="!value.loading" class="h-4 w-4" />
         </Button>
       </template>
+      <template #avgPrice="{ value }">
+        {{ value.avgPrice.toFixed(2) }}
+      </template>
+      <template #minPrice="{ value }">
+        {{ value.minPrice.toFixed(2) }}
+      </template>
+      <template #maxPrice="{ value }">
+        {{ value.maxPrice.toFixed(2) }}
+      </template>
     </Table>
   </Container>
 </template>
@@ -40,13 +49,25 @@ import Container from "../Container.vue";
 import { Button } from "flowbite-vue";
 import Table from "../Table.vue";
 import { PencilIcon, TrashIcon } from "@heroicons/vue/24/solid";
-import { onMounted, ref } from "vue";
-import Category, { CategoryItem } from "../../models/Category.ts";
+import { computed, onMounted, ref } from "vue";
+import Category, {
+  CategoryItem,
+  CategoryStats,
+} from "../../models/Category.ts";
 import { sortBy } from "lodash";
-import Dish from "../../models/Dish.ts";
+import Dish, { DishItem } from "../../models/Dish.ts";
 
-const categories = ref<CategoryItem[]>([]);
-const usedCategories = ref<Set<NonNullable<CategoryItem["id"]>>>(new Set());
+const categories = ref<(CategoryItem & CategoryStats)[]>([]);
+const dishes = ref<DishItem[]>([]);
+const usedCategories = computed<Set<NonNullable<DishItem["category_id"]>>>(
+  () => {
+    const set = new Set<number>();
+    dishes.value.forEach((dish) => {
+      set.add(dish.category_id);
+    });
+    return set;
+  }
+);
 
 const deleteCategory = (
   category: CategoryItem & {
@@ -63,10 +84,16 @@ const deleteCategory = (
 };
 
 onMounted(async () => {
-  categories.value = sortBy(await Category.getAll(), "name");
-  (await Dish.getAll()).forEach((dish) => {
-    usedCategories.value.add(dish.category_id);
-  });
+  dishes.value = await Dish.getAll();
+  categories.value = sortBy(
+    (await Category.getAll()).map((category) => {
+      return {
+        ...category,
+        ...new Category(category).getStats(dishes.value),
+      };
+    }),
+    "name"
+  );
 });
 </script>
 

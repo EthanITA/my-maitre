@@ -47,7 +47,7 @@ export default {
       error: "Name is mandatory!",
     },
     fields: {
-      plates: "Plates",
+      numberOfDishes: "Number of dishes",
       avgPrice: "Average price",
       minPrice: "Minimum price",
       maxPrice: "Maximum price",
