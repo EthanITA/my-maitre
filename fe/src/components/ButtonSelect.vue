@@ -22,9 +22,9 @@ const emit = defineEmits(["update:modelValue"]);
 
 const isSelected = (option: Option): boolean => {
   if (props.multiple) {
-    return !!(props.modelValue as Option["value"][]).find(
-      (value) => JSON.stringify(value) === JSON.stringify(option.value)
-    );
+    return !!(props.modelValue as Option["value"][]).find((value) => {
+      return JSON.stringify(value) === JSON.stringify(option.value);
+    });
   } else {
     return (
       JSON.stringify(option.value) === JSON.stringify(props.modelValue || "")
@@ -34,12 +34,20 @@ const isSelected = (option: Option): boolean => {
 
 const emitUpdate = (value: Option["value"] | Option["value"][]): void => {
   if (props.multiple) {
-    emit("update:modelValue", [
-      ...(props.modelValue as Option["value"][]).filter(
+    let values = (props.modelValue as Option["value"][]) || [];
+    if (
+      !isSelected(
+        (props.options as Option[]).find((o) => o.value === value) ||
+          ({} as Option)
+      )
+    ) {
+      values.push(value);
+    } else {
+      values = values.filter(
         (v) => JSON.stringify(v) !== JSON.stringify(value)
-      ),
-      value,
-    ]);
+      );
+    }
+    emit("update:modelValue", values);
   } else {
     emit("update:modelValue", value);
   }
