@@ -1,5 +1,10 @@
 <template>
-  <Container title="dish.label">
+  <Container v-if="Object.values(categories).length" title="dish.label">
+    <template #action>
+      <Button @click="$router.push('/dish/category/create')"
+        >{{ $t("category.add") }}
+      </Button>
+    </template>
     <div
       v-for="category in sortBy(Object.values(categories), 'name')"
       class="flex flex-col gap-2 ml-2"
@@ -8,19 +13,37 @@
         <h2 class="font-semibold text-gray-500">
           {{ category.name }}
         </h2>
-        <Button
-          outline
-          pill
-          size="xs"
-          @click="
-            $router.push({
-              path: '/dish/create',
-              query: { categoryId: category.id },
-            })
-          "
-        >
-          {{ $t("dish.addToCategory") }}
-        </Button>
+        <div class="flex gap-1">
+          <Button
+            outline
+            pill
+            color="dark"
+            size="xs"
+            @click="$router.push('/dish/create')"
+          >
+            <PlusIcon class="h-4 w-4" />
+          </Button>
+          <Button
+            outline
+            pill
+            size="xs"
+            :disabled="category.loading"
+            @click="$router.push(`/category/edit/${category.id}`)"
+          >
+            <PencilIcon class="h-4 w-4" />
+          </Button>
+          <Button
+            outline
+            pill
+            color="red"
+            :disabled="category.loading || dishes[category.id]?.length"
+            :loading="category.loading"
+            size="xs"
+            @click="deleteCategory(category)"
+          >
+            <TrashIcon class="h-4 w-4" />
+          </Button>
+        </div>
       </div>
       <Table
         :data="sortBy(dishes[category.id], 'name')"
@@ -63,18 +86,34 @@
       </Table>
     </div>
   </Container>
+  <Sheet class="h-full text-center flex flex-col gap-2 p-4 pb-2" v-else>
+    <ExclamationTriangleIcon class="text-amber-500 mx-auto h-12 w-12" />
+    <h1 class="text-2xl font-bold">{{ $t("category.missing.title") }}</h1>
+    <p class="text-gray-500">
+      {{ $t("category.missing.description") }}
+    </p>
+    <Button class="mx-auto mt-4" @click="$router.push('/dish/category/create')">
+      {{ $t("category.add") }}
+    </Button>
+  </Sheet>
 </template>
 <script lang="ts" setup>
 import Container from "../Container.vue";
 import { Button } from "flowbite-vue";
 import Table from "../Table.vue";
-import { PencilIcon, TrashIcon } from "@heroicons/vue/24/solid";
+import {
+  ExclamationTriangleIcon,
+  PencilIcon,
+  PlusIcon,
+  TrashIcon,
+} from "@heroicons/vue/24/solid";
 import { onMounted, ref } from "vue";
 
 import { sortBy } from "lodash";
 import Dish, { DishItem } from "../../models/Dish.ts";
 import Category, { CategoryItem } from "../../models/Category.ts";
 import UnitOfMeasure, { UnitOfMeasureItem } from "../../models/UnitOfMeasure";
+import Sheet from "../Sheet.vue";
 
 const unitOfMeasures = ref<
   Record<NonNullable<UnitOfMeasureItem["id"]>, UnitOfMeasureItem>
@@ -86,6 +125,7 @@ const categories = ref<
     DishItem["category_id"],
     CategoryItem & {
       id: NonNullable<CategoryItem["id"]>;
+      loading?: boolean;
     }
   >
 >({});
@@ -128,6 +168,15 @@ onMounted(async () => {
     {}
   );
 });
+const deleteCategory = ({ id }) => {
+  categories.value[id].loading = true;
+  new Category(categories.value[id])
+    .delete()
+    .then(() => {
+      delete categories.value[id];
+    })
+    .finally(() => (categories.value[id].loading = false));
+};
 </script>
 
 <style scoped></style>

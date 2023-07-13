@@ -50,7 +50,7 @@ const handleSubmit = async () => {
   const category = new Category(form);
   const f = props.isUpdating ? category.update : category.create;
   await f.bind(category)();
-  await router.push("/category");
+  await router.push("/dish");
 };
 </script>
 

@@ -2,11 +2,7 @@
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 import { FunctionalComponent, HTMLAttributes, VNodeProps } from "vue";
-import {
-  faBowlFood,
-  faLayerGroup,
-  faUtensils,
-} from "@fortawesome/free-solid-svg-icons";
+import { faBowlFood, faUtensils } from "@fortawesome/free-solid-svg-icons";
 import { HomeIcon } from "@heroicons/vue/24/solid";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
@@ -24,11 +20,6 @@ const items: {
     title: "menu.label",
     icon: faUtensils,
     to: "/menu",
-  },
-  {
-    title: "category.label",
-    icon: faLayerGroup,
-    to: "/category",
   },
   {
     title: "dish.label",
