@@ -3,8 +3,20 @@
     title="menu.creation.label"
     description="menu.creation.description"
   >
+    <template #action v-if="isUpdating">
+      <Button
+        outline
+        size="sm"
+        :color="form.enabled ? 'red' : 'default'"
+        :loading="enabling"
+        :disabled="enabling"
+        @click="handleToggleEnable"
+      >
+        {{ form.enabled ? $t("menu.disable") : $t("menu.enable") }}
+      </Button>
+    </template>
     <form @submit.prevent="handleSubmit">
-      <Sheet class="flex-col gap-4 flex">
+      <Sheet class="flex-col gap-4 flex" :disabled="!form.enabled">
         <template #header v-if="errorText">
           <Alert type="danger">
             {{ $t(errorText) }}
@@ -142,7 +154,7 @@ const props = defineProps<{
 }>();
 
 const form = reactive<MenuItem>(Menu.default.parse(props.form));
-
+const enabling = ref<boolean>(false);
 const router = useRouter();
 
 const enableVisilibity = ref<boolean>(Object.keys(form.visibility).length > 0);
@@ -168,6 +180,15 @@ const handleSubmit = async () => {
   const f = props.isUpdating ? menu.update : menu.create;
   await f.bind(menu)();
   await router.push("/menu");
+};
+
+const handleToggleEnable = async () => {
+  const menu = new Menu(form);
+  menu.enabled = !menu.enabled;
+  enabling.value = true;
+  await menu.enable();
+  form.enabled = menu.enabled;
+  enabling.value = false;
 };
 </script>
 

@@ -6,6 +6,8 @@ export default {
       "Crea i menu per tutte le tue esigenze: menu del giorni, carta dei vini, menu pranzo, cena...",
     customize: "Personalizza",
     add: "Crea nuovo",
+    enable: "Abilita",
+    disable: "Disabilita",
     fields: {
       name: "Nome",
       plates: "Numero piatti",
@@ -23,7 +25,7 @@ export default {
       description:
         "Dai un nome al tuo menu, pianifica la visibilità per i tuoi clienti ed infine componilo selezionando i piatti.",
       submit: "Crea menu",
-      error: "Nome, Descrizione e Tipo di menu sono obbligatori!",
+      error: "Nome e Descrizione sono obbligatori!",
     },
     types: {
       standard: "Standard",
