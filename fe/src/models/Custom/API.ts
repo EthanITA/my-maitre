@@ -7,8 +7,9 @@ const loaderStore = loader();
 const notificationStore = notification();
 
 class API<T> {
-  apiUrl: string;
-  axios: AxiosInstance;
+  protected apiUrl: string;
+  protected axios: AxiosInstance;
+
   constructor(
     public path: string,
     public loader: boolean = true,
@@ -16,7 +17,7 @@ class API<T> {
   ) {
     this.apiUrl = import.meta.env.VITE_API_URL;
     this.axios = axios.create({
-      baseURL: this.apiUrl,
+      baseURL: `${this.apiUrl}/${this.path}`,
     });
 
     this.setInterceptors();
@@ -54,27 +55,28 @@ class API<T> {
 
   @toggle("notification", false)
   async get(id: number): Promise<T> {
-    const response = await this.axios.get<T>(`${this.path}/${id}`);
+    const response = await this.axios.get<T>(`${id}`);
     return response.data;
   }
 
   @toggle("notification", false)
   async getAll(): Promise<T[]> {
-    const response = await this.axios.get<T[]>(`${this.path}`);
+    const response = await this.axios.get<T[]>("");
     return response.data;
   }
+
   async create(data: T): Promise<T> {
-    const response = await this.axios.post<T>(`${this.path}`, data);
+    const response = await this.axios.post<T>("", data);
     return response.data;
   }
 
   async update(id: number, data: T): Promise<T> {
-    const response = await this.axios.put<T>(`${this.path}/${id}`, data);
+    const response = await this.axios.put<T>(`${id}`, data);
     return response.data;
   }
 
   async delete(id: number): Promise<any> {
-    const response = await this.axios.delete(`${this.path}/${id}`);
+    const response = await this.axios.delete(`${id}`);
     return response.data;
   }
 }

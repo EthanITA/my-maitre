@@ -1,3 +1,5 @@
+from flask import jsonify, make_response, request
+
 from .API import RouteMethodView
 from .CRUD import CRUD
 from .db import db
@@ -13,6 +15,8 @@ class Menu(db.Model):
     hide_price = db.Column(db.Boolean, default=False)
     # JSONB
     visibility = db.Column(db.JSON, default={})
+    enabled = db.Column(db.Boolean, default=True)
+    open_hours = db.Column(db.JSON, default={})
 
 
 class MenuView(CRUD, RouteMethodView):
@@ -20,3 +24,26 @@ class MenuView(CRUD, RouteMethodView):
 
     def __init__(self):
         super().__init__(Menu)
+
+    def enable(self, id: int):
+        data = request.get_json()
+        with self.app.app_context():
+            menu_elem = self.db.session.query(Menu).filter_by(id=id).first()
+            if menu_elem is None:
+                return make_response('Not found', 404)
+            try:
+                menu_elem.enabled = data['enabled']
+                self.db.session.commit()
+                menu_elem = self.db.session.query(Menu).filter_by(id=id).first()
+                return jsonify(self._to_dict(menu_elem))
+            except Exception as e:
+                return make_response(jsonify({'result': False, 'error': str(e)}), 500)
+
+    @property
+    def custom_routes(self) -> dict[str, dict[str, any]]:
+        return {
+            'enable/<int:id>': {
+                'methods': ['PUT'],
+                'view_func': self.enable
+            }
+        }
