@@ -31,6 +31,7 @@ export default {
       lunch: "Lunch",
       dinner: "Dinner",
       roomService: "Room service",
+      umbrella: "Umbrella",
     },
     visibilities: {
       everyday: "Everyday",

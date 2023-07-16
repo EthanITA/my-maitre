@@ -33,6 +33,7 @@ export default {
       lunch: "Pranzo",
       dinner: "Cena",
       roomService: "Servizio in camera",
+      umbrella: "Ombrellone",
     },
     visibilities: {
       everyday: "Tutti i giorni",

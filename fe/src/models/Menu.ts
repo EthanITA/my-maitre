@@ -4,10 +4,10 @@ import { z } from "zod";
 
 export const menuTypes = [
   "standard",
-  "breakfast",
   "lunch",
   "dinner",
   "roomService",
+  "umbrella",
 ] as const;
 
 export const visibilities = ["everyday", "weekdays", "days"] as const;
