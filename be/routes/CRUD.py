@@ -7,6 +7,8 @@ from .db import db, app
 
 
 class CRUD:
+    app = app
+    db = db
     def __init__(self, model: db.Model):
         self.model = model
 
