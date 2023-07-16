@@ -22,7 +22,7 @@ export default {
       label: "Create menu",
       description:
         "Give a name to your menu, plan the visibility for your customers and finally compose it by selecting the dishes.",
-      submit: "Create menu",
+      submit: "Save menu",
       error: "Name and Description are mandatory!",
     },
     types: {

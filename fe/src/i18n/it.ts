@@ -24,7 +24,7 @@ export default {
       label: "Crea menu",
       description:
         "Dai un nome al tuo menu, pianifica la visibilità per i tuoi clienti ed infine componilo selezionando i piatti.",
-      submit: "Crea menu",
+      submit: "Salva menu",
       error: "Nome e Descrizione sono obbligatori!",
     },
     types: {
