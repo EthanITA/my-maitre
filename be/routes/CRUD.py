@@ -29,7 +29,7 @@ class CRUD:
     def post(self):
         data = request.get_json()
         with app.app_context():
-            model_elem = self.model(**{field: data[field] for field in self.fields})
+            model_elem = self.model(**{field: data.get(field) for field in self.fields})
             delattr(model_elem, 'id')
             db.session.add(model_elem)
             db.session.commit()  # commit the transaction
@@ -44,7 +44,7 @@ class CRUD:
             if model_elem is None:
                 return make_response('Not found', 404)
             for field in self.fields:
-                setattr(model_elem, field, data[field])
+                setattr(model_elem, field, data.get(field))
             db.session.commit()
             model_elem = db.session.query(self.model).filter_by(id=id).first()
             return jsonify(self._to_dict(model_elem))
