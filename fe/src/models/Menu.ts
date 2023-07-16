@@ -1,6 +1,6 @@
-import { days, Weekday } from "./Custom/DatetimeTypes";
+import { Weekday } from "./Custom/DatetimeTypes";
 import API from "./Custom/API";
-import Validate from "./Custom/Validate.ts";
+import { z } from "zod";
 
 export const menuTypes = [
   "standard",
@@ -8,25 +8,41 @@ export const menuTypes = [
   "lunch",
   "dinner",
   "roomService",
-];
+] as const;
 
 export const visibilities = ["everyday", "weekdays", "days"] as const;
 
-export type MenuAvailability = [string, string] | Weekday[] | string[];
+export type MenuAvailability = Weekday[] | string[];
 
-export interface MenuItem {
-  id?: number;
-  name: string;
-  description: string;
-  icon: string;
-  hide_price: boolean;
-  location_id: number;
-  order_type: (typeof menuTypes)[number];
-  visibility: {
-    type?: (typeof visibilities)[number];
-    availability?: MenuAvailability;
-  };
-}
+export const MenuItem = z.object({
+  id: z.number().optional(),
+  name: z.string().min(1),
+  description: z.string().min(1),
+  icon: z.string().optional(),
+  hide_price: z.boolean().default(false),
+  location_id: z.number().optional(),
+  order_type: z.enum(menuTypes).default("standard"),
+  visibility: z.object({
+    type: z.enum(visibilities).optional(),
+    availability: z
+      .union([z.array(z.number().lte(7).gte(1)), z.array(z.string())])
+      .optional(),
+  }),
+  open_hours: z.object({
+    // HH:MM
+    start: z
+      .string()
+      .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/)
+      .default("00:00"),
+    end: z
+      .string()
+      .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/)
+      .default("23:59"),
+  }),
+  enabled: z.boolean().default(true),
+});
+
+export type MenuItem = z.infer<typeof MenuItem>;
 
 class Menu extends API<MenuItem> implements MenuItem {
   description!: string;
@@ -40,8 +56,13 @@ class Menu extends API<MenuItem> implements MenuItem {
     type?: (typeof visibilities)[number];
     availability?: MenuAvailability;
   };
+  open_hours!: {
+    start: string;
+    end: string;
+  };
+  enabled!: boolean;
 
-  constructor(public menuItem: MenuItem) {
+  constructor(menuItem: MenuItem) {
     super("menus");
     Object.assign(this, menuItem);
   }
@@ -68,31 +89,33 @@ class Menu extends API<MenuItem> implements MenuItem {
     return super.update(this.id, this);
   }
 
-  static validate(obj: any): boolean {
-    const menu = new Menu(obj);
-    const result: any[] = [];
-    result.push(Validate.string(menu.name));
-    result.push(Validate.string(menu.description));
-    result.push(menuTypes.includes(menu.order_type));
+  async enable(): Promise<MenuItem> {
+    if (!this.id) throw new Error("No id provided");
+    return this.axios.put(`enable/${this.id}`, { enabled: this.enabled });
+  }
 
-    // hh:mm
-    const isHour = (str?: string | number) =>
-      /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(str?.toString() || "");
-    const isWeekday = (arr: Weekday[] = []) =>
-      arr.every((x) => days.includes(x));
-    // yyyy-mm-dd
-    const isDate = (str: string) => /^\d{4}-\d{2}-\d{2}$/.test(str);
-    const visilityValidation = (visibility: Menu["visibility"]): boolean => {
-      if (!visibility || !Object.keys(visibility).length) return true;
-      const { type, availability } = visibility;
-      if (!visibilities.includes(type as any)) return false;
-      if (isHour(availability?.[0]) && isHour(availability?.[1])) return true;
-      if (isWeekday(availability as Weekday[])) return true;
-      return (availability as string[]).every(isDate);
-    };
-    result.push(visilityValidation(menu.visibility));
-    console.log(result);
-    return result.every((x) => x);
+  static validate(obj: Record<any, any>): boolean {
+    return MenuItem.safeParse(obj).success;
+  }
+
+  static get default() {
+    return MenuItem.extend({
+      name: z.string().default(""),
+      description: z.string().default(""),
+    }).default({
+      name: "",
+      description: "",
+      icon: "",
+      hide_price: false,
+      location_id: 0,
+      order_type: "standard",
+      visibility: {},
+      open_hours: {
+        start: "00:00",
+        end: "23:59",
+      },
+      enabled: true,
+    });
   }
 }
 

@@ -55,53 +55,61 @@
               ($event) => {
                 form.visibility.type = $event;
                 form.visibility.availability = [];
+                form.open_hours = {
+                  start: '00:00',
+                  end: '23:59',
+                };
               }
             "
           />
-          <template v-if="enableVisilibity">
-            <template v-if="form.visibility.type === 'everyday'">
+          <div
+            :class="{ invisible: !Object.keys(form.visibility || {}).length }"
+            class="flex flex-col gap-4"
+          >
+            <div class="flex gap-2">
               <Input
                 type="time"
-                v-model="form.visibility.availability![0]"
+                v-model="form.open_hours.start"
                 :label="$t('menu.fields.startTime')"
               />
               <Input
                 type="time"
                 :label="$t('menu.fields.endTime')"
-                v-model="form.visibility.availability![1]"
+                v-model="form.open_hours.end"
               />
-            </template>
-            <template v-else-if="form.visibility.type === 'weekdays'">
-              <DaySelect
-                multiple
-                v-model="form.visibility.availability as Weekday[]"
-              />
-            </template>
-            <template v-else-if="form.visibility.type === 'days'">
-              <div class="flex flex-col gap-2">
-                <div class="flex gap-1">
-                  <Input
-                    type="date"
-                    v-model="selectedDate"
-                    :label="$t('menu.fields.days')"
-                  />
-                  <Button
-                    pill
-                    square
-                    class="mt-auto"
-                    type="button"
-                    @click="handleAddDate"
-                  >
-                    <PlusIcon class="w-5 h-5" />
-                  </Button>
-                </div>
-                <DaysList
-                  class="flex-wrap"
-                  v-model="form.visibility.availability as string[]"
+            </div>
+
+            <DaySelect
+              v-if="form.visibility.type === 'weekdays'"
+              multiple
+              v-model="form.visibility.availability as Weekday[]"
+            />
+            <div
+              class="flex flex-col gap-2"
+              v-else-if="form.visibility.type === 'days'"
+            >
+              <div class="flex gap-1">
+                <Input
+                  type="date"
+                  v-model="selectedDate"
+                  :label="$t('menu.fields.days')"
                 />
+                <Button
+                  pill
+                  square
+                  class="mt-auto"
+                  type="button"
+                  @click="handleAddDate"
+                >
+                  <PlusIcon class="w-5 h-5" />
+                </Button>
               </div>
-            </template>
-          </template>
+              <DaysList
+                class="flex-wrap"
+                v-model="form.visibility.availability as string[]"
+              />
+            </div>
+          </div>
         </div>
         <template #footer>
           <Button class="ml-auto" type="submit">
@@ -133,16 +141,7 @@ const props = defineProps<{
   isUpdating?: boolean;
 }>();
 
-const form = reactive<MenuItem>({
-  id: props.form?.id ?? 0,
-  name: props.form?.name ?? "",
-  description: props.form?.description ?? "",
-  icon: props.form?.icon ?? "",
-  hide_price: props.form?.hide_price ?? false,
-  order_type: props.form?.order_type ?? "standard",
-  visibility: props.form?.visibility ?? {},
-  location_id: props.form?.location_id ?? 0,
-});
+const form = reactive<MenuItem>(Menu.default.parse(props.form));
 
 const router = useRouter();
 
@@ -161,8 +160,7 @@ const handleAddDate = () => {
 
 const handleSubmit = async () => {
   errorText.value = "";
-  const isValid = Menu.validate(form);
-  if (!isValid) {
+  if (!Menu.validate(form)) {
     errorText.value = "menu.creation.error";
     return;
   }
