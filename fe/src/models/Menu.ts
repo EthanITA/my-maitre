@@ -23,7 +23,7 @@ export const MenuItem = z.object({
   location_id: z.number().optional(),
   type: z.enum(menuTypes).default("standard"),
   visibility: z.object({
-    type: z.enum(visibilities).optional(),
+    type: z.enum(visibilities),
     availability: z
       .union([z.array(z.number().lte(7).gte(1)), z.array(z.string())])
       .optional(),
@@ -53,7 +53,7 @@ class Menu extends API<MenuItem> implements MenuItem {
   name!: string;
   type!: (typeof menuTypes)[number];
   visibility!: {
-    type?: (typeof visibilities)[number];
+    type: (typeof visibilities)[number];
     availability?: MenuAvailability;
   };
   open_hours!: {
@@ -94,6 +94,13 @@ class Menu extends API<MenuItem> implements MenuItem {
     return this.axios.put(`enable/${this.id}`, { enabled: this.enabled });
   }
 
+  async hidePrice(): Promise<MenuItem> {
+    if (!this.id) throw new Error("No id provided");
+    return this.axios.put(`hide_price/${this.id}`, {
+      hide_price: this.hide_price,
+    });
+  }
+
   static validate(obj: Record<any, any>): boolean {
     return MenuItem.safeParse(obj).success;
   }
@@ -109,7 +116,9 @@ class Menu extends API<MenuItem> implements MenuItem {
       hide_price: false,
       location_id: 0,
       type: "standard",
-      visibility: {},
+      visibility: {
+        type: "everyday",
+      },
       open_hours: {
         start: "00:00",
         end: "23:59",

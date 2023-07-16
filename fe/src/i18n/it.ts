@@ -15,6 +15,7 @@ export default {
       description: "Descrizione",
       orderType: "Tipo di ordine",
       hidePrice: "Nascondi prezzi",
+      showPrice: "Mostra prezzi",
       menuType: "Tipo di menu",
       startTime: "Ora di inizio",
       endTime: "Ora di fine",
@@ -40,6 +41,7 @@ export default {
       weekdays: "Giorni della settimana",
       days: "Specifici giorni",
     },
+    error: "Errore nella lettura del menu",
   },
   category: {
     label: "Categorie",

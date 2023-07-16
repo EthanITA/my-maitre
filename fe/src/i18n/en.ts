@@ -12,7 +12,8 @@ export default {
       visibility: "Visibility to users",
       description: "Description",
       orderType: "Order type",
-      hidePrice: "Hide prices",
+      hidePrice: "Hide price",
+      showPrice: "Show price",
       menuType: "Menu type",
       startTime: "Start time",
       endTime: "End time",
@@ -38,6 +39,7 @@ export default {
       weekdays: "Weekdays",
       days: "Specific days",
     },
+    error: "Error in reading the menu",
   },
   category: {
     label: "Categories",
