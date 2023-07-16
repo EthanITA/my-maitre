@@ -23,7 +23,7 @@
               value: type,
             }))
           "
-          v-model="form.order_type"
+          v-model="form.type"
         />
         <Divider />
         <Toggle

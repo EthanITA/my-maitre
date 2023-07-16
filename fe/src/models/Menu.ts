@@ -21,7 +21,7 @@ export const MenuItem = z.object({
   icon: z.string().optional(),
   hide_price: z.boolean().default(false),
   location_id: z.number().optional(),
-  order_type: z.enum(menuTypes).default("standard"),
+  type: z.enum(menuTypes).default("standard"),
   visibility: z.object({
     type: z.enum(visibilities).optional(),
     availability: z
@@ -51,7 +51,7 @@ class Menu extends API<MenuItem> implements MenuItem {
   id?: number;
   location_id!: number;
   name!: string;
-  order_type!: (typeof menuTypes)[number];
+  type!: (typeof menuTypes)[number];
   visibility!: {
     type?: (typeof visibilities)[number];
     availability?: MenuAvailability;
@@ -108,7 +108,7 @@ class Menu extends API<MenuItem> implements MenuItem {
       icon: "",
       hide_price: false,
       location_id: 0,
-      order_type: "standard",
+      type: "standard",
       visibility: {},
       open_hours: {
         start: "00:00",
