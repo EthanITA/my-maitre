@@ -66,7 +66,7 @@
               type="time"
             />
           </div>
-          <div>
+          <div class="flex flex-col gap-4">
             <ButtonSelect
               :label="$t('menu.fields.visibility')"
               :modelValue="form.visibility.type"
@@ -88,40 +88,31 @@
                 }
               "
             />
+            <DaySelect
+              v-if="form.visibility.type === 'weekdays'"
+              v-model="form.visibility.availability as Weekday[]"
+              multiple
+            />
             <div
-              :class="{ invisible: !Object.keys(form.visibility || {}).length }"
-              class="flex flex-col gap-4"
+              v-else-if="form.visibility.type === 'days'"
+              class="flex flex-col gap-2"
             >
-              <DaySelect
-                v-if="form.visibility.type === 'weekdays'"
-                v-model="form.visibility.availability as Weekday[]"
-                multiple
-              />
-              <div
-                v-else-if="form.visibility.type === 'days'"
-                class="flex flex-col gap-2"
-              >
-                <div class="flex gap-1">
-                  <Input
-                    v-model="selectedDate"
-                    :label="$t('menu.fields.days')"
-                    type="date"
-                  />
-                  <Button
-                    class="mt-auto"
-                    pill
-                    square
-                    type="button"
-                    @click="handleAddDate"
-                  >
-                    <PlusIcon class="w-5 h-5" />
-                  </Button>
-                </div>
-                <DaysList
-                  v-model="form.visibility.availability as string[]"
-                  class="flex-wrap"
-                />
+              <div class="flex gap-1">
+                <Input v-model="selectedDate" type="date" />
+                <Button
+                  class="mt-auto"
+                  pill
+                  square
+                  type="button"
+                  @click="handleAddDate"
+                >
+                  <PlusIcon class="w-5 h-5" />
+                </Button>
               </div>
+              <DaysList
+                v-model="form.visibility.availability as string[]"
+                class="flex-wrap"
+              />
             </div>
           </div>
         </div>
