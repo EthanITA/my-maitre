@@ -155,6 +155,8 @@ import { useRouter } from "vue-router";
 import DaysList from "../DaysList.vue";
 import notification from "../../store/notification.ts";
 
+const router = useRouter();
+
 const props = defineProps<{
   form?: MenuItem;
   isUpdating?: boolean;
@@ -166,7 +168,7 @@ if (!defaultMenu.success) {
     type: "danger",
     message: "menu.error",
   });
-  useRouter().push("/menu");
+  router.push("/menu");
 }
 const form = reactive<MenuItem>(
   defaultMenu.success ? defaultMenu.data : Menu.default.parse(undefined)
@@ -177,7 +179,6 @@ const loading = reactive({
   hidingPrice: false,
 });
 const enabling = ref<boolean>(false);
-const router = useRouter();
 
 // yyyy-MM-dd
 const selectedDate = ref<string>(new Date().toISOString().split("T")[0]);
@@ -211,7 +212,13 @@ const handleToggleEnable = () => {
   loading.enabling = true;
   menu
     .enable()
-    .then(() => (form.enabled = !form.enabled))
+    .then(() => {
+      if (form.enabled) {
+        router.push("/menu");
+      } else {
+        form.enabled = !form.enabled;
+      }
+    })
     .finally(() => (loading.enabling = false));
 };
 
