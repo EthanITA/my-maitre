@@ -7,13 +7,18 @@
     </template>
     <Table
       :data="menus"
-      :headers="['name', 'plates', 'visibility']"
+      :headers="['name', 'plates', 'open_hours', 'visibility']"
       prefix="menu.fields"
     >
       <template #price="{ value }">
         {{ value.price }}
       </template>
       <template #plates> 0</template>
+      <template #open_hours="{ value: { open_hours } }">
+        <p class="font-semibold">
+          {{ open_hours.start }} - {{ open_hours.end }}
+        </p>
+      </template>
       <template
         #visibility="{
           value: {
@@ -26,8 +31,7 @@
             v-if="type as MenuItem['visibility']['type'] === 'everyday'"
             class="font-bold"
           >
-            <span>{{ availability?.[0] }}</span> -
-            <span>{{ availability?.[1] }}</span>
+            <p>{{ $t("menu.visibilities.everyday") }}</p>
           </div>
           <DaySelect
             v-else-if="type as MenuItem['visibility']['type'] === 'weekdays'"
