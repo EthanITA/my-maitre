@@ -28,7 +28,7 @@
             pill
             size="xs"
             :disabled="category.loading"
-            @click="$router.push(`/category/edit/${category.id}`)"
+            @click="$router.push(`/dish/category/edit/${category.id}`)"
           >
             <PencilIcon class="h-4 w-4" />
           </Button>
@@ -136,14 +136,11 @@ const deleteDish = (
   }
 ) => {
   dish.loading = true;
-  new Dish(dish)
-    .delete()
-    .then(() => {
-      dishes.value[dish.category_id] = dishes.value[dish.category_id].filter(
-        (dishItem) => dishItem.id !== dish.id
-      );
-    })
-    .finally(() => (dish.loading = false));
+  new Dish(dish).delete().then(() => {
+    dishes.value[dish.category_id] = dishes.value[dish.category_id].filter(
+      (dishItem) => dishItem.id !== dish.id
+    );
+  });
 };
 
 onMounted(async () => {
