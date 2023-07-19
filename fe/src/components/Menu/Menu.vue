@@ -82,6 +82,13 @@ import DaysList from "../DaysList.vue";
 // @ts-ignore
 const menus = ref<MenuItem[]>([]);
 
+const getMenus = async () => {
+  menus.value = _.sortBy(await Menu.getAll(), [
+    (menu) => !menu.enabled,
+    "name",
+  ]);
+};
+
 const deleteMenu = (
   menu: MenuItem & {
     loading?: boolean;
@@ -93,13 +100,9 @@ const deleteMenu = (
     .then(() => {
       menus.value = menus.value.filter((m) => m.id !== menu.id);
     })
-    .finally(async () => {
-      menus.value = _.sortBy(await Menu.getAll(), "name");
-    });
+    .finally(getMenus);
 };
 
-onMounted(async () => {
-  menus.value = _.sortBy(await Menu.getAll(), "name");
-});
+onMounted(getMenus);
 </script>
 <style scoped></style>
