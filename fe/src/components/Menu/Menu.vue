@@ -9,6 +9,7 @@
       :data="menus"
       :headers="['name', 'plates', 'open_hours', 'visibility']"
       prefix="menu.fields"
+      :rowDisabled="({ enabled }) => !enabled"
     >
       <template #price="{ value }">
         {{ value.price }}

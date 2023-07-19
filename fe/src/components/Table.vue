@@ -12,6 +12,7 @@ defineProps<{
   headers: string[];
   data: any[];
   prefix?: string; // prefix for translation
+  rowDisabled?: (row: any) => boolean;
 }>();
 </script>
 
@@ -28,7 +29,13 @@ defineProps<{
     <TableBody>
       <TableRow v-if="data.length" v-for="d in data">
         <template v-for="header in headers">
-          <TableCell class="text-left">
+          <TableCell
+            class="text-left"
+            :class="{
+              'cursor-not-allowed !bg-gray-200 opacity-50':
+                rowDisabled && rowDisabled(d),
+            }"
+          >
             <div v-if="$slots[header]">
               <slot :value="d" :name="header" />
             </div>
