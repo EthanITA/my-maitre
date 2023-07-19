@@ -27,7 +27,7 @@ export default {
       description:
         "Dai un nome al tuo menu, pianifica la visibilità per i tuoi clienti ed infine componilo selezionando i piatti.",
       submit: "Salva menu",
-      error: "Nome e Descrizione sono obbligatori!",
+      error: "Controllare Nome, Descrizione e orario!",
     },
     types: {
       standard: "Standard",

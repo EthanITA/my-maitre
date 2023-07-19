@@ -102,7 +102,14 @@ class Menu extends API<MenuItem> implements MenuItem {
   }
 
   static validate(obj: Record<any, any>): boolean {
-    return MenuItem.safeParse(obj).success;
+    function isStartBeforeEnd(startTime, endTime) {
+      const getDate = (time) => new Date(0, 0, 0, ...time.split(":"));
+      return getDate(startTime) < getDate(endTime);
+    }
+    const isValid = MenuItem.safeParse(obj).success;
+    return (
+      isValid && isStartBeforeEnd(obj.open_hours.start, obj.open_hours.end)
+    );
   }
 
   static get default() {

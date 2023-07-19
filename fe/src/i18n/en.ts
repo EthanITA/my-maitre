@@ -25,7 +25,7 @@ export default {
       description:
         "Give a name to your menu, plan the visibility for your customers and finally compose it by selecting the dishes.",
       submit: "Save menu",
-      error: "Name and Description are mandatory!",
+      error: "Check Name, Description and time!",
     },
     types: {
       standard: "Standard",
