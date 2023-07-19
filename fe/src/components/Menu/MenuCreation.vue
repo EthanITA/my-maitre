@@ -100,7 +100,7 @@
               <div class="flex gap-1">
                 <Input v-model="selectedDate" type="date" />
                 <Button
-                  class="mt-auto"
+                  class="my-auto"
                   pill
                   square
                   type="button"
