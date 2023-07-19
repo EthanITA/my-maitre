@@ -11,7 +11,7 @@ class Menu(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text, nullable=False)
     description = db.Column(db.Text)
-    icon = db.Column(db.String(255))
+    image = db.Column(db.String(255))
     hide_price = db.Column(db.Boolean, default=False)
     # JSONB
     visibility = db.Column(db.JSON, default={})

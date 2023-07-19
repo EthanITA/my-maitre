@@ -18,7 +18,7 @@ export const MenuItem = z.object({
   id: z.number().optional(),
   name: z.string().min(1),
   description: z.string().min(1),
-  icon: z.string().optional(),
+  image: z.string().optional(),
   hide_price: z.boolean().default(false),
   location_id: z.number().optional(),
   type: z.enum(menuTypes).default("standard"),
@@ -47,7 +47,7 @@ export type MenuItem = z.infer<typeof MenuItem>;
 class Menu extends API<MenuItem> implements MenuItem {
   description!: string;
   hide_price!: boolean;
-  icon!: string;
+  image!: string;
   id?: number;
   location_id!: number;
   name!: string;
@@ -119,7 +119,7 @@ class Menu extends API<MenuItem> implements MenuItem {
     }).default({
       name: "",
       description: "",
-      icon: "",
+      image: "",
       hide_price: false,
       location_id: 0,
       type: "standard",
