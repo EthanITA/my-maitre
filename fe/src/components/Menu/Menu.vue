@@ -48,6 +48,17 @@
         >
           <PencilIcon class="h-4 w-4" />
         </Button>
+        <Button
+          outline
+          pill
+          color="red"
+          :disabled="value.loading"
+          :loading="value.loading"
+          square
+          @click="deleteMenu(value)"
+        >
+          <TrashIcon class="h-4 w-4"
+        /></Button>
       </template>
     </Table>
   </Container>
@@ -56,7 +67,7 @@
 import { Button } from "flowbite-vue";
 import { onMounted, ref } from "vue";
 import Table from "../Table.vue";
-import { PencilIcon } from "@heroicons/vue/24/solid";
+import { PencilIcon, TrashIcon } from "@heroicons/vue/24/solid";
 import Container from "../Container.vue";
 import Menu, { MenuItem } from "../../models/Menu.ts";
 import DaySelect from "../DaySelect.vue";
@@ -65,6 +76,22 @@ import _ from "lodash";
 import DaysList from "../DaysList.vue";
 // @ts-ignore
 const menus = ref<MenuItem[]>([]);
+
+const deleteMenu = (
+  menu: MenuItem & {
+    loading?: boolean;
+  }
+) => {
+  menu.loading = true;
+  new Menu(menu)
+    .delete()
+    .then(() => {
+      menus.value = menus.value.filter((m) => m.id !== menu.id);
+    })
+    .finally(async () => {
+      menus.value = _.sortBy(await Menu.getAll(), "name");
+    });
+};
 
 onMounted(async () => {
   menus.value = _.sortBy(await Menu.getAll(), "name");
