@@ -7,7 +7,7 @@
     </template>
     <Table
       :data="menus"
-      :headers="['name', 'plates', 'open_hours', 'visibility']"
+      :headers="['name', 'plates', 'openHours', 'visibility']"
       prefix="menu.fields"
       :rowDisabled="({ enabled }) => !enabled"
     >
@@ -15,7 +15,7 @@
         {{ value.price }}
       </template>
       <template #plates> 0</template>
-      <template #open_hours="{ value: { open_hours } }">
+      <template #openHours="{ value: { open_hours } }">
         <p class="font-semibold">
           {{ open_hours.start }} - {{ open_hours.end }}
         </p>

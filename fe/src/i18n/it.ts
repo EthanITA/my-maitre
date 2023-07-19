@@ -20,6 +20,7 @@ export default {
       startTime: "Ora di inizio",
       endTime: "Ora di fine",
       days: "Giorni",
+      openHours: "Orario",
     },
     creation: {
       label: "Crea menu",

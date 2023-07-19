@@ -18,6 +18,7 @@ export default {
       startTime: "Start time",
       endTime: "End time",
       days: "Days",
+      openHours: "Hours",
     },
     creation: {
       label: "Create menu",
