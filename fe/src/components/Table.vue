@@ -19,7 +19,7 @@ defineProps<{
 <template>
   <Table>
     <TableHead>
-      <TableHeadCell v-for="header in headers"
+      <TableHeadCell v-for="header in headers" class="whitespace-nowrap"
         >{{ $t(`${prefix ? prefix + "." : ""}${header}`) }}
       </TableHeadCell>
       <TableHeadCell class="right-0 sr-only"
@@ -30,7 +30,7 @@ defineProps<{
       <TableRow v-if="data.length" v-for="d in data">
         <template v-for="header in headers">
           <TableCell
-            class="text-left"
+            class="text-left whitespace-nowrap"
             :class="{
               'cursor-not-allowed !bg-gray-200 opacity-50':
                 rowDisabled && rowDisabled(d),
