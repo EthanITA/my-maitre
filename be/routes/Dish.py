@@ -44,7 +44,7 @@ class DishView(CRUD, RouteMethodView):
                 dish_elem = self.db.session.query(Dish).filter_by(id=id).first()
                 dish_elem.image = filename
                 self.db.session.commit()
-                return 'Created', 201
+                return filename, 201
         except Exception as e:
             return make_response(jsonify({'result': False, 'error': str(e)}), 500)
 

@@ -36,6 +36,8 @@
             <img
               :alt="form.image"
               v-if="imgUrl"
+              :key="imgKey"
+              :alt="form.image"
               :src="imgUrl.href"
               class="mx-auto h-64"
             />
@@ -186,14 +188,15 @@ watch(loading, (oldValue, newValue) => {
 });
 
 const imgUrl = computed(() => new Dish(form).imgUrl);
-
+const imgKey = ref<number>(0); // force img refresh
 const uploadImage = (event) => {
   loading.uploadImage = true;
   const image = event.target.files[0];
   new Dish(form)
     .uploadImage(image)
-    .then(() => {
-      form.image = image;
+    .then((res) => {
+      form.image = res.data;
+      imgKey.value++;
     })
     .finally(() => {
       loading.uploadImage = false;
