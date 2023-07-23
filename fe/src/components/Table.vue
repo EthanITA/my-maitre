@@ -13,6 +13,7 @@ defineProps<{
   data: any[];
   prefix?: string; // prefix for translation
   rowDisabled?: (row: any) => boolean;
+  clickRow?: (row: any) => void;
 }>();
 </script>
 
@@ -27,13 +28,19 @@ defineProps<{
       </TableHeadCell>
     </TableHead>
     <TableBody>
-      <TableRow v-if="data.length" v-for="d in data">
+      <TableRow
+        v-if="data.length"
+        v-for="d in data"
+        :class="{
+          'hover:bg-blue-100 cursor-pointer': clickRow && !rowDisabled?.(d),
+        }"
+        @click="!rowDisabled?.(d) && clickRow?.(d)"
+      >
         <template v-for="header in headers">
           <TableCell
             class="text-left whitespace-nowrap"
             :class="{
-              'cursor-not-allowed !bg-gray-200 opacity-50':
-                rowDisabled && rowDisabled(d),
+              'cursor-not-allowed !bg-gray-200 opacity-50': rowDisabled?.(d),
             }"
           >
             <div v-if="$slots[header]">
@@ -44,7 +51,10 @@ defineProps<{
             </div>
           </TableCell>
         </template>
-        <TableCell class="sticky right-0 bg-white/70 shadow-lg">
+        <TableCell
+          class="sticky right-0 bg-white/70 shadow-lg cursor-auto"
+          @click.stop
+        >
           <div class="flex gap-1 float-right">
             <slot name="actions" :value="d" />
           </div>
