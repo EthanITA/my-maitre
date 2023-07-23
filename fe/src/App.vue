@@ -4,7 +4,7 @@
     <div class="sm:pl-64 flex-col flex w-full">
       <Header class="border-b-[1px] w-full h-16" />
       <main class="py-10 h-full bg-gray-100 overflow-y-scroll">
-        <div class="px-4 sm:px-6 lg:px-8">
+        <div class="px-4 sm:px-6 lg:px-8 h-full">
           <router-view v-slot="{ Component }">
             <transition mode="out-in" name="router">
               <component :is="Component" />
