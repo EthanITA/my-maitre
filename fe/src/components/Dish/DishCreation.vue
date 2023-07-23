@@ -1,6 +1,6 @@
 <template>
   <Container title="dish.label">
-    <template #action v-if="isUpdating">
+    <template v-if="isUpdating" #action>
       <input
         ref="fileInput"
         accept="image/*"
@@ -9,32 +9,31 @@
         @change="uploadImage"
       />
       <Button
-        @click="($refs.fileInput as HTMLInputElement).click()"
-        :loading="loading.uploadImage"
         :disabled="loading.uploadImage"
+        :loading="loading.uploadImage"
+        @click="($refs.fileInput as HTMLInputElement).click()"
       >
         {{ $t("dish.uploadImage") }}
       </Button>
       <Button
         v-if="imgUrl"
-        @click="deleteImage"
-        :loading="loading.deleteImage"
         :disabled="loading.deleteImage"
-        outline
+        :loading="loading.deleteImage"
         color="red"
+        outline
+        @click="deleteImage"
       >
         {{ $t("dish.deleteImage") }}
       </Button>
     </template>
     <form @submit.prevent="handleSubmit">
       <Sheet class="flex-col gap-4 flex">
-        <template #header v-if="errorText || imgUrl">
+        <template v-if="errorText || imgUrl" #header>
           <div class="grid gap-2">
             <Alert v-if="errorText" type="danger">
               {{ $t(errorText) }}
             </Alert>
             <img
-              :alt="form.image"
               v-if="imgUrl"
               :key="imgKey"
               :alt="form.image"
@@ -67,11 +66,11 @@
           <div class="flex">
             <!-- @ts-ignore -->
             <Input
-              :model-value="form.price.toString()"
-              @model-value:change="form.price = $event"
               :label="$t('dish.fields.price')"
+              :model-value="form.price.toString()"
               class="grow rounded-r-none"
               type="number"
+              @model-value:change="form.price = $event"
             />
             <Select
               :label="$t('dish.fields.unitOfMeasure')"
@@ -198,21 +197,15 @@ const uploadImage = (event) => {
       form.image = res.data;
       imgKey.value++;
     })
-    .finally(() => {
-      loading.uploadImage = false;
-    });
+    .finally(() => (loading.uploadImage = false));
 };
 
 const deleteImage = () => {
   loading.deleteImage = true;
   new Dish(form)
     .deleteImage()
-    .then(() => {
-      form.image = "";
-    })
-    .finally(() => {
-      loading.deleteImage = false;
-    });
+    .then(() => (form.image = ""))
+    .finally(() => (loading.deleteImage = false));
 };
 
 const handleSubmit = async () => {
