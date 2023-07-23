@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { Button, ButtonGroup } from "flowbite-vue";
 // @ts-ignore
-import { ButtonVariant } from "flowbite-vue/dist_types/components/Button/types";
+import { ButtonVariant } from "flowbite-vue/dist/components/Button/types";
 
 type Option = {
   name: string;

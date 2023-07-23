@@ -29,7 +29,7 @@
 <script lang="ts" setup>
 import { Button } from "flowbite-vue";
 // @ts-ignore
-import { ButtonVariant } from "flowbite-vue/dist_types/components/Button/types";
+import { ButtonVariant } from "flowbite-vue/dist/components/Button/types";
 import { onMounted, ref } from "vue";
 import { days, Weekday } from "../models/Custom/DatetimeTypes.ts";
 

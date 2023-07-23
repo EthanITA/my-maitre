@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import _ from "lodash";
 //@ts-ignore
-import { ToastType } from "flowbite-vue/dist_types/components/Toast/types";
+import { ToastType } from "flowbite-vue/dist/components/Toast/types";
 
 interface Notification {
   id: number;
