@@ -40,6 +40,7 @@ export const MenuItem = z.object({
       .default("23:59"),
   }),
   enabled: z.boolean().default(true),
+  dishes: z.array(z.number()).optional(),
 });
 
 export type MenuItem = z.infer<typeof MenuItem>;
@@ -131,6 +132,7 @@ class Menu extends API<MenuItem> implements MenuItem {
         end: "23:59",
       },
       enabled: true,
+      dishes: [],
     });
   }
 }

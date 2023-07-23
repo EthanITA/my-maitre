@@ -17,6 +17,7 @@ class Menu(db.Model):
     visibility = db.Column(db.JSON, default={})
     enabled = db.Column(db.Boolean, default=True)
     open_hours = db.Column(db.JSON, default={})
+    dishes = db.Column(db.ARRAY(db.Integer), default=[])
     type = db.Column(db.String(255), default='standard')
 
 
