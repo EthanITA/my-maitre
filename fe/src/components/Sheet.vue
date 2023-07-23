@@ -6,12 +6,12 @@ defineProps<{
 
 <template>
   <div
-    class="bg-white rounded-lg shadow-sm w-full"
+    class="bg-white rounded-lg flex-col flex shadow-sm w-full"
     :class="{
       relative: disabled,
     }"
   >
-    <div class="m-4 overflow-x-auto" v-bind="$attrs">
+    <div class="m-4 overflow-x-auto grow" v-bind="$attrs">
       <div class="my-2" v-if="$slots.header">
         <slot name="header" />
       </div>
