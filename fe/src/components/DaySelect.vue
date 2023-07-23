@@ -41,7 +41,7 @@ const props = defineProps<{
   disabled?: boolean;
 }>();
 
-const dayRefs = ref<Button | null>([]);
+const dayRefs = ref<typeof Button | null>();
 
 const emit = defineEmits<{
   (event: "update:modelValue", value: Weekday | Weekday[]): void;

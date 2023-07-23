@@ -36,7 +36,7 @@
             outline
             pill
             color="red"
-            :disabled="category.loading || dishes[category.id]?.length"
+            :disabled="!!(category.loading || dishes[category.id]?.length)"
             :loading="category.loading"
             size="xs"
             @click="deleteCategory(category)"
@@ -77,7 +77,7 @@
           <img
             :alt="value.image"
             v-if="value.image"
-            :src="new Dish(value).imgUrl"
+            :src="new Dish(value).imgUrl.href"
             class="mx-auto h-12 w-12"
           />
           <div v-else class="mx-auto h-12 w-12 bg-gray-200 flex">

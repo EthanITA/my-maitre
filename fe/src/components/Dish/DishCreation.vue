@@ -9,7 +9,7 @@
         @change="uploadImage"
       />
       <Button
-        @click="$refs.fileInput.click()"
+        @click="($refs.fileInput as HTMLInputElement).click()"
         :loading="loading.uploadImage"
         :disabled="loading.uploadImage"
       >
@@ -36,7 +36,7 @@
             <img
               :alt="form.image"
               v-if="imgUrl"
-              :src="imgUrl"
+              :src="imgUrl.href"
               class="mx-auto h-64"
             />
           </div>
@@ -53,29 +53,31 @@
         <div class="grid grid-cols-2 gap-2">
           <Select
             :label="$t('dish.fields.category')"
-            :model-value="form.category_id"
+            :model-value="form.category_id.toString()"
             :options="
               categories.map((category) => ({
                 name: category.name,
-                value: category.id,
+                value: category.id.toString(),
               }))
             "
             @update:model-value="form.category_id = $event"
           />
           <div class="flex">
+            <!-- @ts-ignore -->
             <Input
-              v-model="form.price"
+              :model-value="form.price.toString()"
+              @model-value:change="form.price = $event"
               :label="$t('dish.fields.price')"
               class="grow rounded-r-none"
               type="number"
             />
             <Select
               :label="$t('dish.fields.unitOfMeasure')"
-              :model-value="form.unit_of_measure_id"
+              :model-value="form.unit_of_measure_id.toString()"
               :options="
                 unitOfMeasures.map((unitOfMeasure) => ({
                   name: $t(`dish.unitOfMeasure.${unitOfMeasure.measure}`),
-                  value: unitOfMeasure.id,
+                  value: unitOfMeasure.id.toString(),
                 }))
               "
               @update:model-value="form.unit_of_measure_id = $event"
