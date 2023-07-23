@@ -77,7 +77,7 @@
           <img
             :alt="value.image"
             v-if="value.image"
-            :src="new Dish(value).imgUrl.href"
+            :src="getUrlImg(value)"
             class="mx-auto h-12 w-12"
           />
           <div v-else class="mx-auto h-12 w-12 bg-gray-200 flex">
@@ -141,6 +141,10 @@ const categories = ref<
     }
   >
 >({});
+
+const getUrlImg = (dish: DishItem) => {
+  return new Dish(dish).imgUrl.href;
+};
 
 const deleteDish = (
   dish: DishItem & {
