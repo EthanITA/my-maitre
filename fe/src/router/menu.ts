@@ -17,8 +17,19 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: "edit/:id",
-        name: "MenuEdit",
-        component: () => import("../views/Menu/MenuEditView.vue"),
+        name: "MenuEditIndex",
+        children: [
+          {
+            path: "",
+            name: "MenuEdit",
+            component: () => import("../views/Menu/MenuEditView.vue"),
+          },
+          {
+            path: "dishes",
+            name: "MenuDishList",
+            component: () => import("../views/Menu/MenuDishListView.vue"),
+          },
+        ],
       },
     ],
   },

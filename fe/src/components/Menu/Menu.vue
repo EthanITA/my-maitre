@@ -6,10 +6,11 @@
       </Button>
     </template>
     <Table
+      :clickRow="({ id }: MenuItem) => $router.push(`/menu/edit/${id}/dishes`)"
       :data="menus"
       :headers="['name', 'plates', 'openHours', 'visibility']"
-      prefix="menu.fields"
       :rowDisabled="({ enabled }) => !enabled"
+      prefix="menu.fields"
     >
       <template #price="{ value }">
         {{ value.price }}
@@ -40,7 +41,7 @@
             multiple
           />
           <div v-else-if="type as MenuItem['visibility']['type'] === 'days'">
-            <DaysList disabled :model-value="availability as string[]" />
+            <DaysList :model-value="availability as string[]" disabled />
           </div>
         </div>
       </template>
@@ -54,16 +55,16 @@
           <PencilIcon class="h-4 w-4" />
         </Button>
         <Button
-          outline
-          pill
-          color="red"
           :disabled="value.loading"
           :loading="value.loading"
+          color="red"
+          outline
+          pill
           square
           @click="deleteMenu(value)"
         >
-          <TrashIcon class="h-4 w-4"
-        /></Button>
+          <TrashIcon class="h-4 w-4" />
+        </Button>
       </template>
     </Table>
   </Container>
@@ -97,9 +98,7 @@ const deleteMenu = (
   menu.loading = true;
   new Menu(menu)
     .delete()
-    .then(() => {
-      menus.value = menus.value.filter((m) => m.id !== menu.id);
-    })
+    .then(() => (menus.value = menus.value.filter((m) => m.id !== menu.id)))
     .finally(getMenus);
 };
 
