@@ -69,6 +69,8 @@ export default {
     label: "Piatti",
     add: "Crea piatto",
     addToCategory: "Aggiungi",
+    uploadImage: "Carica foto",
+    deleteImage: "Elimina foto",
     allergen: {
       gluten: "Glutine",
       crustaceansAndDerivatives: "Crostacei e derivati",
@@ -102,6 +104,7 @@ export default {
     },
     fields: {
       name: "Nome",
+      image: "Foto",
       description: "Descrizione",
       category: "Categoria",
       price: "Prezzo",

@@ -66,6 +66,8 @@ export default {
     label: "Dishes",
     add: "Create dish",
     addToCategory: "Add",
+    uploadImage: "Upload image",
+    deleteImage: "Delete image",
     allergen: {
       gluten: "Gluten",
       crustaceansAndDerivatives: "Crustaceans and derivatives",
@@ -99,6 +101,7 @@ export default {
     },
     fields: {
       name: "Name",
+      image: "Image",
       description: "Description",
       price: "Price",
       category: "Category",

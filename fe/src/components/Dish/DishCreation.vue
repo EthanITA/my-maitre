@@ -1,11 +1,45 @@
 <template>
-  <Container title="category.label">
+  <Container title="dish.label">
+    <template #action v-if="isUpdating">
+      <input
+        ref="fileInput"
+        accept="image/*"
+        class="hidden"
+        type="file"
+        @change="uploadImage"
+      />
+      <Button
+        @click="$refs.fileInput.click()"
+        :loading="loading.uploadImage"
+        :disabled="loading.uploadImage"
+      >
+        {{ $t("dish.uploadImage") }}
+      </Button>
+      <Button
+        v-if="imgUrl"
+        @click="deleteImage"
+        :loading="loading.deleteImage"
+        :disabled="loading.deleteImage"
+        outline
+        color="red"
+      >
+        {{ $t("dish.deleteImage") }}
+      </Button>
+    </template>
     <form @submit.prevent="handleSubmit">
       <Sheet class="flex-col gap-4 flex">
-        <template v-if="errorText" #header>
-          <Alert type="danger">
-            {{ $t(errorText) }}
-          </Alert>
+        <template #header v-if="errorText || imgUrl">
+          <div class="grid gap-2">
+            <Alert v-if="errorText" type="danger">
+              {{ $t(errorText) }}
+            </Alert>
+            <img
+              :alt="form.image"
+              v-if="imgUrl"
+              :src="imgUrl"
+              class="mx-auto h-64"
+            />
+          </div>
         </template>
 
         <div class="grid grid-cols-3 gap-2">
@@ -49,9 +83,6 @@
           </div>
         </div>
         <div class="flex gap-2">
-          <div class="grow flex">
-            <div class="m-auto">IMMAGINE (da fare)</div>
-          </div>
           <ButtonSelect
             v-model="form.allergens_id"
             :label="$t('dish.fields.allergens')"
@@ -64,8 +95,8 @@
                 'name'
               )
             "
-            vertical
             multiple
+            vertical
           />
           <ButtonSelect
             v-model="form.characteristics_id"
@@ -79,12 +110,17 @@
                 'name'
               )
             "
-            vertical
             multiple
+            vertical
           />
         </div>
         <template #footer>
-          <Button class="ml-auto" type="submit">
+          <Button
+            :disabled="loading.submit"
+            :loading="loading.submit"
+            class="ml-auto"
+            type="submit"
+          >
             {{ $t("dish.creation.submit") }}
           </Button>
         </template>
@@ -96,7 +132,7 @@
 import Container from "../Container.vue";
 import Sheet from "../Sheet.vue";
 import { Alert, Button, Input, Select } from "flowbite-vue";
-import { onMounted, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref, watch } from "vue";
 import Category, { CategoryItem } from "../../models/Category";
 import { useRouter } from "vue-router";
 import Dish, { DishItem } from "../../models/Dish.ts";
@@ -137,16 +173,54 @@ const form = reactive<DishItem>({
   characteristics_id: props.form?.characteristics_id ?? [],
 });
 
+const loading = reactive({
+  uploadImage: false,
+  deleteImage: false,
+  submit: false,
+});
+
+watch(loading, (oldValue, newValue) => {
+  if (Object.values(newValue).some((v) => v)) errorText.value = "";
+});
+
+const imgUrl = computed(() => new Dish(form).imgUrl);
+
+const uploadImage = (event) => {
+  loading.uploadImage = true;
+  const image = event.target.files[0];
+  new Dish(form)
+    .uploadImage(image)
+    .then(() => {
+      form.image = image;
+    })
+    .finally(() => {
+      loading.uploadImage = false;
+    });
+};
+
+const deleteImage = () => {
+  loading.deleteImage = true;
+  new Dish(form)
+    .deleteImage()
+    .then(() => {
+      form.image = "";
+    })
+    .finally(() => {
+      loading.deleteImage = false;
+    });
+};
+
 const handleSubmit = async () => {
-  errorText.value = "";
   const isValid = Dish.validate(form);
   if (!isValid) {
     errorText.value = "dish.creation.error";
     return;
   }
+  loading.submit = true;
   const dish = new Dish(form);
   const f = props.isUpdating ? dish.update : dish.create;
   await f.bind(dish)();
+  loading.submit = false;
   await router.push("/dish");
 };
 

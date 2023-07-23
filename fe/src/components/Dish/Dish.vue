@@ -47,7 +47,7 @@
       </div>
       <Table
         :data="sortBy(dishes[category.id], 'name')"
-        :headers="['name', 'price', 'allergens', 'characteristics']"
+        :headers="['image', 'name', 'price', 'allergens', 'characteristics']"
         prefix="dish.fields"
       >
         <template #actions="{ value }">
@@ -72,6 +72,17 @@
           >
             <TrashIcon v-if="!value.loading" class="h-4 w-4" />
           </Button>
+        </template>
+        <template #image="{ value }">
+          <img
+            :alt="value.image"
+            v-if="value.image"
+            :src="new Dish(value).imgUrl"
+            class="mx-auto h-12 w-12"
+          />
+          <div v-else class="mx-auto h-12 w-12 bg-gray-200 flex">
+            <CameraIcon class="h-6 w-6 text-gray-400 m-auto" />
+          </div>
         </template>
         <template #price="{ value }">
           {{ value.price }}
@@ -102,6 +113,7 @@ import Container from "../Container.vue";
 import { Button } from "flowbite-vue";
 import Table from "../Table.vue";
 import {
+  CameraIcon,
   ExclamationTriangleIcon,
   PencilIcon,
   PlusIcon,
