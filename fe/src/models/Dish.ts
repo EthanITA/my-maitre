@@ -51,6 +51,23 @@ class Dish extends API<DishItem> implements DishItem {
     return super.update(this.id, this);
   }
 
+  async uploadImage(image: File): Promise<string> {
+    if (!this.id) throw new Error("No id provided");
+    const formData = new FormData();
+    formData.append("image", image);
+    return this.axios.post<string>(`/image/${this.id}`, formData);
+  }
+
+  async deleteImage(): Promise<string> {
+    if (!this.id) throw new Error("No id provided");
+    return this.axios.delete<string>(`/image/${this.id}`);
+  }
+
+  get imgUrl(): URL | undefined {
+    if (!this.image || !this.id) return;
+    return new URL(`${this.axios.defaults.baseURL}/image/${this.id}`);
+  }
+
   static validate(obj: any): boolean {
     const dish = new Dish(obj);
     const result: any[] = [];
