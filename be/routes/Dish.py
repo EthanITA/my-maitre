@@ -23,7 +23,7 @@ class Dish(db.Model):
 
 class DishView(CRUD, RouteMethodView):
     route = Dish.__tablename__
-    path = '/dish' if os.getenv('FLASK_ENV') == 'production' else os.path.join(os.getcwd(), 'dish')
+    path = '/public/dish' if os.getenv('FLASK_ENV') == 'production' else os.path.join(os.getcwd(), 'dish')
 
     def __init__(self):
         super().__init__(Dish)
