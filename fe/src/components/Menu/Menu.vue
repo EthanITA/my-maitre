@@ -16,7 +16,9 @@
         {{ value.price }}
       </template>
       <template #dishes="{ value }">
-        <p class="font-semibold">{{ value.dishes.length }}</p>
+        <p class="font-semibold">
+          {{ (value.dishes as number[]).filter((d) => dishes[d]).length }}
+        </p>
       </template>
       <template #openHours="{ value: { open_hours } }">
         <p class="font-semibold">
@@ -82,14 +84,22 @@ import DaySelect from "../DaySelect.vue";
 import { Weekday } from "../../models/Custom/DatetimeTypes.ts";
 import _ from "lodash";
 import DaysList from "../DaysList.vue";
+import Dish, { DishItem } from "../../models/Dish.ts";
 // @ts-ignore
 const menus = ref<MenuItem[]>([]);
+const dishes = ref<Record<NonNullable<MenuItem["id"]>, DishItem>>([]);
 
 const getMenus = async () => {
   menus.value = _.sortBy(await Menu.getAll(), [
     (menu) => !menu.enabled,
     "name",
   ]);
+};
+const getDishes = async () => {
+  dishes.value = (await Dish.getAll()).reduce(
+    (acc, dish) => ({ ...acc, [dish.id]: dish }),
+    {}
+  );
 };
 
 const deleteMenu = (
@@ -101,9 +111,15 @@ const deleteMenu = (
   new Menu(menu)
     .delete()
     .then(() => (menus.value = menus.value.filter((m) => m.id !== menu.id)))
-    .finally(getMenus);
+    .finally(() => {
+      getMenus();
+      getDishes();
+    });
 };
 
-onMounted(getMenus);
+onMounted(() => {
+  getMenus();
+  getDishes();
+});
 </script>
 <style scoped></style>

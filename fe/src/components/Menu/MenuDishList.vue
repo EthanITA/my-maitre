@@ -87,7 +87,7 @@ onMounted(async () => {
     return acc;
   }, {});
   menu.value = await Menu.get(props.menuId);
-  right.value = menu.value.dishes;
+  right.value = menu.value.dishes.filter((dishId) => dishes.value[dishId]);
   left.value = _.difference(Object.keys(dishes.value).map(Number), right.value);
 });
 </script>
