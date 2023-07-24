@@ -6,9 +6,19 @@ export default {
       "Create menus for all your needs: daily menus, wine lists, lunch menus, dinner menus...",
     customize: "Customize",
     add: "Create new ",
+    enable: "Enable",
+    disable: "Disable",
+    dishes: {
+      label: "Add dishes for {name}",
+      description:
+        "Add dishes to the menu, you can search them by name or category. Drag them to add them to the menu.",
+      available: "Available dishes",
+      selected: "Selected dishes",
+      submit: "Save dishes",
+    },
     fields: {
       name: "Name",
-      plates: "Number of plates",
+      dishes: "Number of plates",
       visibility: "Visibility to users",
       description: "Description",
       orderType: "Order type",

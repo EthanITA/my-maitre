@@ -8,9 +8,17 @@ export default {
     add: "Crea nuovo",
     enable: "Abilita",
     disable: "Disabilita",
+    dishes: {
+      label: "Aggiungi piatti per {name}",
+      description:
+        "Aggiungi i piatti al menu, puoi cercarli per nome o categoria. Trascinali per aggiungerli al menu.",
+      available: "Piatti disponibili",
+      selected: "Piatti selezionati",
+      submit: "Salva piatti",
+    },
     fields: {
       name: "Nome",
-      plates: "Numero piatti",
+      dishes: "Numero piatti",
       visibility: "Visibilità agli utenti",
       description: "Descrizione",
       orderType: "Tipo di ordine",

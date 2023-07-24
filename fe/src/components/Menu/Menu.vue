@@ -8,14 +8,16 @@
     <Table
       :clickRow="({ id }: MenuItem) => $router.push(`/menu/edit/${id}/dishes`)"
       :data="menus"
-      :headers="['name', 'plates', 'openHours', 'visibility']"
+      :headers="['name', 'dishes', 'openHours', 'visibility']"
       :rowDisabled="({ enabled }) => !enabled"
       prefix="menu.fields"
     >
       <template #price="{ value }">
         {{ value.price }}
       </template>
-      <template #plates> 0</template>
+      <template #dishes="{ value }">
+        <p class="font-semibold">{{ value.dishes.length }}</p>
+      </template>
       <template #openHours="{ value: { open_hours } }">
         <p class="font-semibold">
           {{ open_hours.start }} - {{ open_hours.end }}
