@@ -9,6 +9,7 @@ from .Category import CategoryView
 from .Characteristic import CharacteristicView
 from .Dish import DishView
 from .Menu import MenuView
+from .Order import OrderView
 from .UnitOfMeasure import UnitOfMeasureView
 
 app = Flask(__name__)
@@ -21,6 +22,7 @@ views: list[Type[RouteMethodView]] = [
     DishView,
     AllergenView,
     CharacteristicView,
+    OrderView,
 ]
 
 for view in views:

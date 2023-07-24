@@ -1,5 +1,18 @@
 import API from "./Custom/API.ts";
 import Validate from "./Custom/Validate.ts";
+import { z } from "zod";
+
+export const DishItem = z.object({
+  id: z.number().optional(),
+  name: z.string().min(1),
+  description: z.string().min(1),
+  category_id: z.number(),
+  price: z.number(),
+  unit_of_measure_id: z.number(),
+  image: z.string().default(""),
+  allergens_id: z.array(z.number()).default([]),
+  characteristics_id: z.array(z.number()).default([]),
+});
 
 export interface DishItem {
   id?: number;
