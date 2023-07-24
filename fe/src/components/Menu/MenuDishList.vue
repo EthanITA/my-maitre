@@ -12,7 +12,7 @@
           v-model="left"
           group="dish"
         >
-          <template #item="{ element: dishId, index }"
+          <template #item="{ element: dishId }"
             >{{ dishes[dishId]?.name }}
           </template>
         </DraggableList>
@@ -26,7 +26,7 @@
           v-model="right"
           group="dish"
         >
-          <template #item="{ element: dishId, index }"
+          <template #item="{ element: dishId }"
             >{{ dishes[dishId]?.name }}
           </template>
         </DraggableList>

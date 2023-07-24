@@ -31,8 +31,6 @@ defineProps<{
   label?: string;
 }>();
 
-defineEmits<{
-  "update:modelValue": (value: any[]) => void;
-}>();
+defineEmits(["update:modelValue"]);
 </script>
 <style scoped></style>
