@@ -19,7 +19,7 @@
             pill
             color="dark"
             size="xs"
-            @click="$router.push('/dish/create')"
+            @click="$router.push(`/dish/create?categoryId=${category.id}`)"
           >
             <PlusIcon class="h-4 w-4" />
           </Button>
