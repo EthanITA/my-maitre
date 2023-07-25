@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import menu from "./menu";
 import dish from "./dish.ts";
+import order from "./order.ts";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -10,6 +11,7 @@ const routes: RouteRecordRaw[] = [
   },
   ...menu,
   ...dish,
+  ...order,
 ];
 
 const router = createRouter({

@@ -126,6 +126,9 @@ export default {
       error: "Nome e Descrizione sono obbligatori!",
     },
   },
+  order: {
+    label: "Ordini",
+  },
   table: {
     noData: "Nessun dato",
     actions: "Azioni",

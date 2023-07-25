@@ -2,7 +2,11 @@
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 import { FunctionalComponent, HTMLAttributes, VNodeProps } from "vue";
-import { faBowlFood, faUtensils } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBowlFood,
+  faReceipt,
+  faUtensils,
+} from "@fortawesome/free-solid-svg-icons";
 import { HomeIcon } from "@heroicons/vue/24/solid";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
@@ -25,6 +29,11 @@ const items: {
     title: "dish.label",
     icon: faBowlFood,
     to: "/dish",
+  },
+  {
+    title: "order.label",
+    icon: faReceipt,
+    to: "/order",
   },
 ];
 </script>

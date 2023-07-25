@@ -124,6 +124,9 @@ export default {
       error: "Name, Description and Price are mandatory!",
     },
   },
+  order: {
+    label: "Orders",
+  },
   table: {
     noData: "No data",
     actions: "Actions",
