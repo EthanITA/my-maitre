@@ -38,6 +38,7 @@ export default {
       error: "Controllare Nome, Descrizione e orario!",
     },
     types: {
+      all: "Tutti",
       standard: "Standard",
       breakfast: "Colazione",
       lunch: "Pranzo",
