@@ -57,9 +57,34 @@ class OrderView(CRUD, RouteMethodView):
         except Exception as e:
             return make_response(str(e), 500)
 
+    def customer_post(self):
+        try:
+            data = request.get_json()
+            if 'table' not in data or 'order' not in data:
+                return make_response('Bad request', 400)
+
+            decrypted_table: DecryptedTable = json.loads(Cipher.decrypt(data['table']))
+            with self.app.app_context():
+                model_elem = self.model(**{field: data.get(field) for field in self.fields})
+                delattr(model_elem, 'id')
+                setattr(model_elem, 'spot', decrypted_table.spot)
+                setattr(model_elem, 'order_type', decrypted_table.menu_type)
+                db.session.add(model_elem)
+                db.session.commit()
+                model_elem = db.session.query(self.model).filter_by(id=model_elem.id).first()
+                return make_response(jsonify(self._to_dict(model_elem)), 201)
+        except ValueError:
+            return make_response('Bad request', 400)
+        except Exception as e:
+            return make_response(str(e), 500)
+
     @property
     def custom_routes(self) -> dict[str, dict[str, any]]:
         return {
+            'customer': {
+                'methods': ['POST'],
+                'view_func': self.customer_post
+            },
             'table': {
                 'methods': ['GET'],
                 'view_func': self.get_encrypted_table
