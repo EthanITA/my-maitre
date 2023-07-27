@@ -2,6 +2,7 @@ import API from "./Custom/API.ts";
 import { z } from "zod";
 import { DishItem } from "./Dish.ts";
 import { menuTypes } from "./Menu.ts";
+import { AxiosResponse } from "axios";
 
 const OrderDetail = z.object({
   dish: DishItem,
@@ -48,6 +49,18 @@ class Order extends API<Order> implements OrderItem {
 
   static get(id: NonNullable<OrderItem["id"]>): Promise<OrderItem | never> {
     return new API<OrderItem>("order").get(id);
+  }
+
+  static async getTableLink(tableData: {
+    spot: OrderItem["spot"];
+    menuType: (typeof menuTypes)[number];
+  }): Promise<AxiosResponse> {
+    return new API("order", true, false).axios.get("table", {
+      params: {
+        spot: tableData.spot,
+        menu_type: tableData.menuType,
+      },
+    });
   }
 }
 

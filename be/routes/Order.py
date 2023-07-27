@@ -89,7 +89,7 @@ class OrderView(CRUD, RouteMethodView):
                 'methods': ['GET'],
                 'view_func': self.get_encrypted_table
             },
-            'table/<str:encrypted_table>': {
+            'table/<string:encrypted_table>': {
                 'methods': ['GET'],
                 'view_func': self.get_decrypted_table
             }

@@ -31,7 +31,7 @@
             leave-to="opacity-0 scale-95"
           >
             <DialogPanel
-              class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
+              class="w-full max-w-xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
             >
               <DialogTitle
                 as="h3"
@@ -39,7 +39,7 @@
               >
                 {{ $t("order.qr_code.title") }}
               </DialogTitle>
-              <div class="mt-2 gap-2 grid">
+              <div class="mt-2 gap-4 flex text-center flex-col">
                 <div class="grid grid-cols-2 gap-4">
                   <Select
                     v-model="menuType"
@@ -57,8 +57,29 @@
                     placeholder="C34"
                   />
                 </div>
+                <div v-if="loading" class="h-[300px] w-[300px] flex m-auto">
+                  <ArrowPathIcon class="m-auto h-8 w-8 animate-spin" />
+                </div>
+                <div v-else-if="qrcodeValue" class="truncate">
+                  <QRCodeVue3
+                    myclass="flex"
+                    :dots-options="{
+                      type: 'square',
+                    }"
+                    :cornersSquareOptions="{
+                      type: 'square',
+                    }"
+                    imgclass="mx-auto"
+                    :value="qrcodeValue"
+                  />
 
-                <QRCodeVue3 value="Simple QR code" />
+                  <a
+                    href="https://www.npmjs.com/package/qrcode-vue3"
+                    target="_blank"
+                  >
+                    {{ qrcodeValue }}
+                  </a>
+                </div>
               </div>
 
               <div class="mt-4 float-right">
@@ -85,7 +106,12 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 import { Button, Input, Select } from "flowbite-vue";
-import { computed, ref } from "vue";
+import { ArrowPathIcon } from "@heroicons/vue/24/solid";
+import { ref, watch } from "vue";
+import QRCodeVue3 from "qrcode-vue3";
+import { menuTypes } from "../../models/Menu";
+import Order from "../../models/Order";
+import { debounce } from "lodash";
 
 defineProps<{
   modelValue: boolean;
@@ -95,22 +121,31 @@ defineEmits<{
   "update:modelValue": [value: boolean];
 }>();
 
-const menuTypes = [
-  "standard",
-  "lunch",
-  "dinner",
-  "roomService",
-  "umbrella",
-] as const;
-
-const menuType = ref<string>(menuTypes[0]);
+const menuType = ref<(typeof menuTypes)[number]>(menuTypes[0]);
 const table = ref<string>("");
+const loading = ref<boolean>(false);
 
 // @ts-ignore
 const url: string = import.meta.env.VITE_API_URL;
 
-const qrcodeValue = computed(() => {
-  return `${url}/menu/${menuType.value}/${table.value}`;
+const qrcodeValue = ref<string>("");
+const getLink = debounce(async () => {
+  const encodedTable = await Order.getTableLink({
+    spot: table.value,
+    menuType: menuType.value,
+  });
+  qrcodeValue.value = `${url}/customer/${encodedTable.data}`;
+  loading.value = false;
+}, 500);
+
+watch([menuType, table], () => {
+  loading.value = false;
+  if (!menuType.value || !table.value.trim()) {
+    qrcodeValue.value = "";
+    return;
+  }
+  loading.value = true;
+  getLink();
 });
 </script>
 <style scoped></style>

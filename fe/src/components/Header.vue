@@ -13,7 +13,7 @@
       </Button>
       <div class="ml-auto">PROFILO</div>
     </div>
-    <QRCodeModal v-if="showQrCodeModal" v-model="showQrCodeModal" />
+    <QRCodeModal v-model="showQrCodeModal" />
   </div>
 </template>
 <script lang="ts" setup>

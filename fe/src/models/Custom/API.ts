@@ -11,7 +11,7 @@ export const stores = {
 
 class API<T> {
   protected apiUrl: string;
-  protected axios: AxiosInstance;
+  public axios: AxiosInstance;
 
   constructor(
     public path: string,
