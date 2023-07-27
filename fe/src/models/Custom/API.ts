@@ -1,10 +1,13 @@
 import axios, { AxiosInstance } from "axios";
-import notification from "../../store/notification";
-import loader from "../../store/loader.ts";
 import toggle from "../../decorator/toggle.ts";
 
-const loaderStore = loader();
-const notificationStore = notification();
+let loaderStore = null;
+let notificationStore = null;
+
+export const stores = {
+  setLoaderStore: (store) => (loaderStore = store),
+  setNotificationStore: (store) => (notificationStore = store),
+};
 
 class API<T> {
   protected apiUrl: string;
