@@ -38,6 +38,7 @@ export default {
       error: "Check Name, Description and time!",
     },
     types: {
+      toApprove: "To approve",
       standard: "Standard",
       breakfast: "Breakfast",
       lunch: "Lunch",
@@ -126,6 +127,9 @@ export default {
   },
   order: {
     label: "Orders",
+    description: "Manage orders and reservations.",
+    settings: "Settings",
+    add: "Create order",
   },
   table: {
     noData: "No data",

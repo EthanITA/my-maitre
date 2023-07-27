@@ -38,7 +38,7 @@ export default {
       error: "Controllare Nome, Descrizione e orario!",
     },
     types: {
-      all: "Tutti",
+      toApprove: "Da approvare",
       standard: "Standard",
       breakfast: "Colazione",
       lunch: "Pranzo",
@@ -129,6 +129,16 @@ export default {
   },
   order: {
     label: "Ordini",
+    description: "Visualizza gli ordini effettuati dai tuoi clienti.",
+    settings: "Impostazioni",
+    add: "Crea ordine",
+    fields: {
+      spot: "Postazione",
+    },
+    qr_code: {
+      title: "Genera codice QR",
+      close: "Chiudi",
+    },
   },
   table: {
     noData: "Nessun dato",
