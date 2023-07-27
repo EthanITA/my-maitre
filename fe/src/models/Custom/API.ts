@@ -5,8 +5,8 @@ let loaderStore = null;
 let notificationStore = null;
 
 export const stores = {
-  setLoaderStore: (store) => (loaderStore = store),
-  setNotificationStore: (store) => (notificationStore = store),
+  setLoaderStore: (store) => (loaderStore = store()),
+  setNotificationStore: (store) => (notificationStore = store()),
 };
 
 class API<T> {
