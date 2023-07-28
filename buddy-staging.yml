@@ -6,6 +6,15 @@
   no_skip_to_most_recent: true
   terminate_stale_runs: true
   fail_on_prepare_env_warning: true
+  variables:
+  - key: "DATABASE_URL"
+    value: "secure!NSnV3lBakgNXCiaFWbPDLMGE3HqOsKRUeXHaADlz8IZV2/CxpX4P2k8Xbduhuzu30fpACQE8YOn7CP0DtCba8w==.OThEY83NBctRwymmNT3HxQ=="
+    type: "VAR"
+    encrypted: true
+  - key: "SECRET_KEY"
+    value: "secure!ciFKjsbVMjZkMMVJ+dk+Mq/ZXKgAg0zr1/fxHP5Ug5oC3pjCYUV6McBu3B6SxBVd.9nV8RoDPO3Z673LmCHqYCA=="
+    type: "VAR"
+    encrypted: true
   actions:
   - action: "Send notification to Telegram Channel"
     type: "TELEGRAM"
@@ -19,14 +28,17 @@
     authentication_mode: "ENV_KEY"
     commands:
     - "cd mymaitre"
-    - "docker-compose down"
     - "git fetch --all && git reset --hard origin/staging"
     - "echo \"POSTGRES_DB=$POSTGRES_DB\" > .env"
     - "echo \"POSTGRES_USER=$POSTGRES_USER\" >> .env"
     - "echo \"POSTGRES_PASSWORD=$POSTGRES_PASSWORD\" >> .env"
-    - "cd fe"
+    - "cd be"
+    - "echo \"DATABASE_URL=$DATABASE_URL\" > .env"
+    - "echo \"SECRET_KEY=$SECRET_KEY\" >> .env"
+    - "cd ../fe"
     - "echo \"VITE_API_URL=$VITE_API_URL\" > .env"
     - "cd .."
+    - "docker-compose down"
     - "docker-compose up --build -d"
     run_as_script: true
     variables:
