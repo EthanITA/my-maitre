@@ -9,6 +9,7 @@ from .db import db, app
 class CRUD:
     app = app
     db = db
+
     def __init__(self, model: db.Model):
         self.model = model
 
@@ -27,14 +28,19 @@ class CRUD:
         return make_response('Not found', 404) if result is None else jsonify(result)
 
     def post(self):
-        data = request.get_json()
-        with app.app_context():
-            model_elem = self.model(**{field: data.get(field) for field in self.fields})
-            delattr(model_elem, 'id')
-            db.session.add(model_elem)
-            db.session.commit()  # commit the transaction
-            model_elem = db.session.query(self.model).filter_by(id=model_elem.id).first()
-            return make_response(jsonify(self._to_dict(model_elem)), 201)
+        try:
+            data = request.get_json()
+            with app.app_context():
+                del data['id']
+                model_elem = self.model(**{field: data.get(field) for field in self.fields})
+                db.session.add(model_elem)
+                db.session.commit()  # commit the transaction
+                model_elem = db.session.query(self.model).filter_by(id=model_elem.id).first()
+                return make_response(jsonify(self._to_dict(model_elem)), 201)
+        except ValueError:
+            return make_response('Bad request', 400)
+        except Exception as e:
+            return make_response(str(e), 500)
 
     def put(self, id: int):
         data = request.get_json()

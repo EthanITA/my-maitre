@@ -8,6 +8,8 @@ from .Allergen import AllergenView
 from .Category import CategoryView
 from .Characteristic import CharacteristicView
 from .Dish import DishView
+from .Hall import HallView
+from .HallLocation import HallLocationView
 from .Menu import MenuView
 from .Order import OrderView
 from .UnitOfMeasure import UnitOfMeasureView
@@ -23,6 +25,8 @@ views: list[Type[RouteMethodView]] = [
     AllergenView,
     CharacteristicView,
     OrderView,
+    HallView,
+    HallLocationView
 ]
 
 for view in views:
