@@ -14,7 +14,7 @@ HallLocationPair = tuple[str, str]
 class HallLocation(db.Model):
     __tablename__ = 'hallLocation'
 
-    id = db.Column(db.String(6), primary_key=True)
+    id = db.Column(db.String(6), nullable=False, unique=True)
     name = db.Column(db.String(255), nullable=False)
     hall_id = db.Column(db.String, db.ForeignKey('hall.name'), nullable=False)
     __table_args__ = (
