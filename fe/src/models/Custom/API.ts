@@ -57,7 +57,7 @@ class API<T> {
   }
 
   @toggle("notification", false)
-  async get(id: number): Promise<T> {
+  async get(id: number | string): Promise<T> {
     const response = await this.axios.get<T>(`${id}`);
     return response.data;
   }

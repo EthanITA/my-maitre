@@ -140,6 +140,9 @@ export default {
       close: "Chiudi",
     },
   },
+  hall: {
+    label: "Sale e postazioni",
+  },
   table: {
     noData: "Nessun dato",
     actions: "Azioni",

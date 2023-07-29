@@ -7,7 +7,7 @@ import {
   faReceipt,
   faUtensils,
 } from "@fortawesome/free-solid-svg-icons";
-import { HomeIcon } from "@heroicons/vue/24/solid";
+import { HomeIcon, QrCodeIcon } from "@heroicons/vue/24/solid";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
 const items: {
@@ -34,6 +34,11 @@ const items: {
     title: "order.label",
     icon: faReceipt,
     to: "/order",
+  },
+  {
+    title: "hall.label",
+    icon: QrCodeIcon,
+    to: "/hall",
   },
 ];
 </script>
