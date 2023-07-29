@@ -13,7 +13,7 @@ class CRUD:
     def __init__(self, model: db.Model):
         self.model = model
 
-    def get(self, id: int):
+    def get(self, id: int or str):
         result = None
         with app.app_context():
             if id is None:
