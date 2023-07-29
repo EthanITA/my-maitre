@@ -12,22 +12,23 @@ HallLocationPair = tuple[str, str]
 
 
 class HallLocation(db.Model):
-    __tablename__ = 'hallLocation'
+    __tablename__ = 'halllocation'
 
-    id = db.Column(db.String(6), nullable=False, unique=True)
+    id = db.Column(db.Integer, primary_key=True)
+    value = db.Column(db.String(6), nullable=False, unique=True)
     name = db.Column(db.String(255), nullable=False)
     hall_id = db.Column(db.String, db.ForeignKey('hall.name'), nullable=False)
     __table_args__ = (
         db.UniqueConstraint('name', 'hall_id'),
     )
 
-    def generate_id(self) -> None:
+    def generate_value(self) -> None:
         encryption = Cipher.encrypt(json.dumps({
             'name': self.name,
             'hall_id': self.hall_id
         }))
         rand_i = random.randint(0, len(encryption) - 6)
-        self.id = encryption[rand_i:rand_i + 6]
+        self.value = encryption[rand_i:rand_i + 6]
 
 
 class HallLocationView(CRUD, RouteMethodView):
@@ -41,7 +42,8 @@ class HallLocationView(CRUD, RouteMethodView):
         try:
             with self.app.app_context():
                 hall_location_elem = HallLocation(**{field: data.get(field) for field in self.fields})
-                hall_location_elem.generate_id()
+                hall_location_elem.generate_value()
+                delattr(hall_location_elem, 'id')
                 db.session.add(hall_location_elem)
                 db.session.commit()  # commit the transaction
                 model_elem = db.session.query(self.model).filter_by(id=hall_location_elem.id).first()

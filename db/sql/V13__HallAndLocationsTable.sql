@@ -10,8 +10,9 @@ values ('Standard'),
 
 CREATE TABLE hallLocation
 (
-    id      VARCHAR(6) unique not null,
-    name    VARCHAR(255) NOT NULL,
-    hall_id VARCHAR      NOT NULL REFERENCES hall (name),
+    id      SERIAL PRIMARY KEY,
+    value   VARCHAR(255) unique not null,
+    name    VARCHAR(255)        NOT NULL,
+    hall_id VARCHAR             NOT NULL REFERENCES hall (name),
     UNIQUE (name, hall_id)
 );
