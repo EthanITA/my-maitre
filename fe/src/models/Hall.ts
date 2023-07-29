@@ -1,8 +1,11 @@
 import API from "./Custom/API";
+import { z } from "zod";
 
-export interface HallItem {
-  name: string;
-}
+const HallItem = z.object({
+  name: z.string(),
+});
+
+export type HallItem = z.infer<typeof HallItem>;
 
 class Hall extends API<Hall> implements HallItem {
   name: string;
