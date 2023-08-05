@@ -1,7 +1,11 @@
 <template>
   <Button color="alternative" class="p-0">
-    <a class="px-2" :href="HallLocation.getUrl(location.value)" target="_blank">
-      <p>{{ location.name }}</p>
+    <a
+      class="px-2"
+      :href="HallLocation.getUrl((location as HallLocationItem).value)"
+      target="_blank"
+    >
+      <p>{{ (location as HallLocationItem).name }}</p>
       <QRCodeVue3
         :cornersSquareOptions="{
           type: 'square',
@@ -9,7 +13,7 @@
         :dots-options="{
           type: 'square',
         }"
-        :value="HallLocation.getUrl(location.value)"
+        :value="HallLocation.getUrl((location as HallLocationItem).value)"
         imgclass="mx-auto"
         myclass="flex"
       />

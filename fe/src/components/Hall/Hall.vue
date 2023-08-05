@@ -16,7 +16,7 @@
               class="h-4 w-4"
               @click="
                 () => {
-                  $refs.qrModal.setHall(hall);
+                  ($refs.qrModal as any).setHall(hall);
                   showQRCodeModal = true;
                 }
               "
