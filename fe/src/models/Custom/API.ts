@@ -73,12 +73,12 @@ class API<T> {
     return response.data;
   }
 
-  async update(id: number, data: T): Promise<T> {
+  async update(id: number | string, data: T): Promise<T> {
     const response = await this.axios.put<T>(`${id}`, data);
     return response.data;
   }
 
-  async delete(id: number): Promise<any> {
+  async delete(id: number | string): Promise<any> {
     const response = await this.axios.delete(`${id}`);
     return response.data;
   }
