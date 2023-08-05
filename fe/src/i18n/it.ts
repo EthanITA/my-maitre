@@ -132,16 +132,14 @@ export default {
     description: "Visualizza gli ordini effettuati dai tuoi clienti.",
     settings: "Impostazioni",
     add: "Crea ordine",
-    fields: {
-      spot: "Postazione",
-    },
-    qr_code: {
-      title: "Genera codice QR",
-      close: "Chiudi",
-    },
   },
   hall: {
     label: "Sale e postazioni",
+    qr_code: {
+      title: "Genera codice QR",
+      close: "Chiudi",
+      confirm: "Conferma",
+    },
   },
   table: {
     noData: "Nessun dato",

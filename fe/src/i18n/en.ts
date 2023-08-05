@@ -131,6 +131,14 @@ export default {
     settings: "Settings",
     add: "Create order",
   },
+  hall: {
+    label: "Hall",
+    qr_code: {
+      label: "Generate QR code",
+      close: "Close",
+      confirm: "Confirm",
+    },
+  },
   table: {
     noData: "No data",
     actions: "Actions",

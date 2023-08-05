@@ -41,53 +41,43 @@
               </DialogTitle>
               <div class="mt-2 gap-4 flex text-center flex-col">
                 <div class="grid grid-cols-2 gap-4">
-                  <Select
-                    v-model="menuType"
+                  <Input
                     :label="$t('menu.fields.menuType')"
-                    :options="
-                      menuTypes.map((type) => ({
-                        value: type,
-                        name: $t(`menu.types.${type}`),
-                      }))
-                    "
+                    :model-value="hall"
+                    disabled
                   />
                   <Input
                     v-model="table"
                     :label="$t('order.fields.spot')"
-                    placeholder="C34"
+                    placeholder="C34..."
+                    @keyup.enter="createQrCode"
                   />
                 </div>
-                <div v-if="loading" class="h-[300px] w-[300px] flex m-auto">
+                <div v-if="false" class="h-[300px] w-[300px] flex m-auto">
                   <ArrowPathIcon class="m-auto h-8 w-8 animate-spin" />
                 </div>
-                <div v-else-if="qrcodeValue" class="truncate">
+                <div v-else-if="hallValue" class="truncate">
                   <QRCodeVue3
-                    myclass="flex"
-                    :dots-options="{
-                      type: 'square',
-                    }"
                     :cornersSquareOptions="{
                       type: 'square',
                     }"
+                    :dots-options="{
+                      type: 'square',
+                    }"
+                    :value="HallLocation.getUrl(hallValue)"
                     imgclass="mx-auto"
-                    :value="qrcodeValue"
+                    myclass="flex"
                   />
 
-                  <a
-                    href="https://www.npmjs.com/package/qrcode-vue3"
-                    target="_blank"
-                  >
-                    {{ qrcodeValue }}
+                  <a :href="hallValue" target="_blank">
+                    {{ HallLocation.getUrl(hallValue) }}
                   </a>
                 </div>
               </div>
 
               <div class="mt-4 float-right">
-                <Button
-                  type="button"
-                  @click="$emit('update:modelValue', false)"
-                >
-                  {{ $t("order.qr_code.close") }}
+                <Button type="button" @click="createQrCode">
+                  {{ $t("hall.qr_code.confirm") }}
                 </Button>
               </div>
             </DialogPanel>
@@ -105,47 +95,59 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
-import { Button, Input, Select } from "flowbite-vue";
+import { Button, Input } from "flowbite-vue";
 import { ArrowPathIcon } from "@heroicons/vue/24/solid";
-import { ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import QRCodeVue3 from "qrcode-vue3";
-import { menuTypes } from "../../models/Menu";
-import Order from "../../models/Order";
+import HallLocation from "../../models/HallLocation.ts";
 import { debounce } from "lodash";
 
-defineProps<{
-  modelValue: boolean;
-}>();
-
-defineEmits<{
-  "update:modelValue": [value: boolean];
-}>();
-
-const menuType = ref<(typeof menuTypes)[number]>(menuTypes[0]);
+const hall = ref<string>("");
 const table = ref<string>("");
-const loading = ref<boolean>(false);
+const hallValue = ref<string>("");
 
-// @ts-ignore
-const url: string = import.meta.env.VITE_API_URL;
+const props = defineProps<{
+  modelValue: boolean;
+  qrCodes: string[];
+}>();
 
-const qrcodeValue = ref<string>("");
-const getLink = debounce(async () => {
-  const encodedTable = await Order.getTableLink({
-    spot: table.value,
-    menuType: menuType.value,
-  });
-  qrcodeValue.value = `${url}/customer/${encodedTable.data}`;
-  loading.value = false;
-}, 500);
+const emits = defineEmits<{
+  "update:modelValue": [value: boolean];
+  "update:qrCodes": [value: string[]];
+}>();
 
-watch([menuType, table], () => {
-  loading.value = false;
-  if (!menuType.value || !table.value.trim()) {
-    qrcodeValue.value = "";
-    return;
-  }
-  loading.value = true;
-  getLink();
+defineExpose({
+  setHall: (h: string) => {
+    hall.value = h;
+  },
 });
+
+const createQrCode = debounce(async () => {
+  try {
+    await new HallLocation({
+      value: hallValue.value,
+      hall_id: hall.value,
+      name: table.value,
+    }).create();
+    emits("update:modelValue", false);
+    emits("update:qrCodes", [...props.qrCodes, hallValue.value]);
+  } catch (e) {
+    console.log(e);
+  }
+}, 100);
+
+const getLink = () => {
+  const qrCodes = new Set(props.qrCodes);
+  let attempts = 0;
+  while (qrCodes.has(hallValue.value) && attempts < 1000) {
+    hallValue.value = HallLocation.generateValue();
+    attempts++;
+  }
+};
+watch(hall, () => {
+  getLink();
+  table.value = "";
+});
+onMounted(getLink);
 </script>
 <style scoped></style>
