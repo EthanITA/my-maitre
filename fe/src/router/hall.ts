@@ -8,6 +8,11 @@ const routes = [
         name: "HallList",
         component: () => import("../views/Hall/HallView.vue"),
       },
+      {
+        path: "create",
+        name: "HallCreate",
+        component: () => import("../views/Hall/HallCreateView.vue"),
+      },
     ],
   },
 ];

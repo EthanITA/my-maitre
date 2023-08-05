@@ -22,6 +22,24 @@ class Hall extends API<Hall> implements HallItem {
   static get(name: HallItem["name"]): Promise<HallItem | never> {
     return new API<HallItem>("hall").get(name);
   }
+
+  // @ts-ignore
+  async create(): Promise<HallItem | never> {
+    return super.create(this);
+  }
+  async delete(): Promise<HallItem> {
+    if (!this.name) throw new Error("No id provided");
+    return super.delete(this.name);
+  }
+
+  // @ts-ignore
+  async update(): Promise<HallItem> {
+    if (!this.name) throw new Error("No id provided");
+    return super.update(this.name, this);
+  }
+  static validate(hallItem: HallItem): boolean {
+    return HallItem.safeParse(hallItem).success;
+  }
 }
 
 export default Hall;

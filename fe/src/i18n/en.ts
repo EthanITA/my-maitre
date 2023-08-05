@@ -133,6 +133,7 @@ export default {
   },
   hall: {
     label: "Hall",
+    create: "Create hall",
     qr_code: {
       label: "Generate QR code",
       close: "Close",

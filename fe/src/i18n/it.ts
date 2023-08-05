@@ -135,6 +135,7 @@ export default {
   },
   hall: {
     label: "Sale e postazioni",
+    create: "Crea sala",
     qr_code: {
       title: "Genera codice QR",
       close: "Chiudi",

@@ -1,5 +1,10 @@
 <template>
   <Container :title="$t('hall.label')">
+    <template #action>
+      <Button @click="$router.push('/hall/create')">{{
+        $t("hall.create")
+      }}</Button>
+    </template>
     <div
       v-for="[hall, locations] in sortBy(
         Object.entries(halls),
