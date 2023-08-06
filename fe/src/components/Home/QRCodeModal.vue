@@ -76,7 +76,7 @@
               </div>
 
               <div class="mt-4 float-right">
-                <Button type="button" @click="createQrCode">
+                <Button type="button" @click="createQrCode" :disabled="!table">
                   {{ $t("hall.qr_code.confirm") }}
                 </Button>
               </div>
@@ -137,6 +137,7 @@ const createQrCode = debounce(async () => {
 }, 100);
 
 const getLink = () => {
+  hallValue.value = HallLocation.generateValue();
   const qrCodes = new Set(props.qrCodes);
   let attempts = 0;
   while (qrCodes.has(hallValue.value) && attempts < 1000) {

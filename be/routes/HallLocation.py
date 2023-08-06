@@ -40,6 +40,9 @@ class HallLocationView(CRUD, RouteMethodView):
     def post(self):
         data = request.get_json()
         try:
+            data['name'] = (data.get('name') or '').strip().upper()
+            if not data.get('name'):
+                raise ValueError('Name cannot be empty')
             with self.app.app_context():
                 hall_location_elem = HallLocation(**{field: data.get(field) for field in self.fields})
                 hall_location_elem.generate_value()
