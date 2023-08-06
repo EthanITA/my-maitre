@@ -46,7 +46,9 @@ const handleSubmit = async () => {
   }
   const hall = new Hall(form);
   console.log(hall);
-  const f = props.isUpdating ? hall.update : hall.create;
+  const f = props.isUpdating
+    ? () => hall.update(props.form?.name)
+    : hall.create;
   await f.bind(hall)();
   await router.push("/hall");
 };

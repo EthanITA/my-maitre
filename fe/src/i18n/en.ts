@@ -139,6 +139,12 @@ export default {
       close: "Close",
       confirm: "Confirm",
     },
+    creation: {
+      submit: "Save hall",
+    },
+    fields: {
+      name: "Hall name",
+    },
   },
   table: {
     noData: "No data",

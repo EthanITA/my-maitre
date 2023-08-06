@@ -141,6 +141,12 @@ export default {
       close: "Chiudi",
       confirm: "Conferma",
     },
+    creation: {
+      submit: "Salva sala",
+    },
+    fields: {
+      name: "Nome sala",
+    },
   },
   table: {
     noData: "Nessun dato",

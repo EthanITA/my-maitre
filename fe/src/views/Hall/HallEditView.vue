@@ -7,14 +7,15 @@
   />
 </template>
 <script lang="ts" setup>
-import HallCreation from "../../components/Hall/HallCreation.vue
+import HallCreation from "../../components/Hall/HallCreation.vue";
 import { useRoute, useRouter } from "vue-router";
 import { ref } from "vue";
 import Hall from "../../models/Hall.ts";
 
 const route = useRoute();
 const router = useRouter();
-const hallId = route.params.id as string;
+const hallId = route.params.name as string;
+console.log(route.params);
 const hall = ref<Hall>();
 const errorText = ref<string>("");
 Hall.get(hallId)
