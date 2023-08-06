@@ -27,16 +27,18 @@ class Hall extends API<Hall> implements HallItem {
   async create(): Promise<HallItem | never> {
     return super.create(this);
   }
+
   async delete(): Promise<HallItem> {
-    if (!this.name) throw new Error("No id provided");
-    return super.delete(this.name);
+    if (!this.name) throw new Error("No name provided");
+    return this.axios.delete(`hall/v2/${this.name}`);
   }
 
   // @ts-ignore
   async update(): Promise<HallItem> {
-    if (!this.name) throw new Error("No id provided");
+    if (!this.name) throw new Error("No name provided");
     return super.update(this.name, this);
   }
+
   static validate(hallItem: HallItem): boolean {
     return HallItem.safeParse(hallItem).success;
   }

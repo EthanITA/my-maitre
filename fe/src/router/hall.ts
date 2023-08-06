@@ -13,6 +13,11 @@ const routes = [
         name: "HallCreate",
         component: () => import("../views/Hall/HallCreateView.vue"),
       },
+      {
+        path: "edit/:name",
+        name: "HallEdit",
+        component: () => import("../views/Hall/HallEditView.vue"),
+      },
     ],
   },
 ];

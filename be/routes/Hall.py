@@ -62,3 +62,12 @@ class HallView(CRUD, RouteMethodView):
                 return make_response(jsonify({'result': True}), 204)
             except IntegrityError:
                 return make_response(jsonify({'result': False}), 409)
+
+    @property
+    def custom_routes(self) -> dict[str, dict[str, any]]:
+        return {
+            'hall/v2/<string:name>': {
+                'methods': ['DELETE'],
+                'view_func': self.delete
+            }
+        }

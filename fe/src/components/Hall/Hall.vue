@@ -1,9 +1,9 @@
 <template>
   <Container :title="$t('hall.label')">
     <template #action>
-      <Button @click="$router.push('/hall/create')">{{
-        $t("hall.create")
-      }}</Button>
+      <Button @click="$router.push('/hall/create')"
+        >{{ $t("hall.create") }}
+      </Button>
     </template>
     <div
       v-for="[hall, locations] in sortBy(
@@ -14,23 +14,41 @@
       class="flex flex-col gap-2 ml-2"
     >
       <div class="flex justify-between mx-1">
-        <h2 class="font-semibold text-gray-500">{{ hall }}</h2>
+        <h2 class="font-semibold text-gray-500 capitalize">{{ hall }}</h2>
         <div class="flex gap-1">
-          <Button color="dark" outline pill size="xs">
-            <PlusIcon
-              class="h-4 w-4"
-              @click="
+          <Button
+            color="dark"
+            outline
+            pill
+            size="xs"
+            @click="
                 () => {
                   ($refs.qrModal as any).setHall(hall);
                   showQRCodeModal = true;
                 }
               "
-            />
+          >
+            <PlusIcon class="h-4 w-4" />
           </Button>
-          <Button outline pill size="xs">
+          <Button
+            :disabled="!!locations.length"
+            outline
+            pill
+            :ref="hall"
+            size="xs"
+            @click="$router.push(`/hall/edit/${hall}`)"
+          >
             <PencilIcon class="h-4 w-4" />
           </Button>
-          <Button color="red" outline pill size="xs">
+          <Button
+            :disabled="!!locations.length"
+            color="red"
+            outline
+            :ref="hall"
+            pill
+            size="xs"
+            @click="deleteHall(hall)"
+          >
             <TrashIcon class="h-4 w-4" />
           </Button>
         </div>
@@ -65,6 +83,12 @@ import HallTable from "./HallTable.vue";
 
 const halls = ref<Record<HallItem["name"], HallLocationItem[]>>({});
 const showQRCodeModal = ref<boolean>(false);
+
+const deleteHall = async (hall: HallItem["name"]) => {
+  await new Hall({ name: hall }).delete();
+  delete halls.value[hall];
+};
+
 onMounted(async () => {
   const hallLocations: HallLocationItem[] = await HallLocation.getAll();
   halls.value = (await Hall.getAll()).reduce((acc, hall) => {
