@@ -35,6 +35,16 @@ class HallLocation extends API<HallLocationItem> implements HallLocationItem {
     return super.create(this);
   }
 
+  async update(): Promise<HallLocationItem> {
+    if (!this.name) throw new Error("No id provided");
+    return super.update(this.id, this);
+  }
+
+  async delete(): Promise<HallLocationItem> {
+    if (!this.id) throw new Error("No id provided");
+    return super.delete(this.id);
+  }
+
   static generateValue(): string {
     return Math.random().toString(36).slice(2, 8);
   }

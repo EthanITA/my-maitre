@@ -138,6 +138,8 @@ export default {
       label: "Generate QR code",
       close: "Close",
       confirm: "Confirm",
+      regenerate: "Regenerate QR code",
+      delete: "Delete",
     },
     creation: {
       submit: "Save hall",

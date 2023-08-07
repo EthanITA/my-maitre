@@ -140,6 +140,8 @@ export default {
       title: "Genera codice QR",
       close: "Chiudi",
       confirm: "Conferma",
+      regenerate: "Rigenera QR code",
+      delete: "Elimina",
     },
     creation: {
       submit: "Salva sala",

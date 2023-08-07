@@ -48,6 +48,7 @@
                   />
                   <Input
                     v-model="table"
+                    :disabled="!!hallLocation"
                     :label="$t('order.fields.spot')"
                     placeholder="C34..."
                     @keyup.enter="createQrCode"
@@ -75,9 +76,24 @@
                 </div>
               </div>
 
-              <div class="mt-4 float-right">
-                <Button type="button" @click="createQrCode" :disabled="!table">
+              <div class="mt-4 gap-2 flex float-right">
+                <Button
+                  type="button"
+                  @click="regenerateQrCode"
+                  color="alternative"
+                >
+                  {{ $t("hall.qr_code.regenerate") }}
+                </Button>
+                <Button
+                  v-if="!hallLocation"
+                  type="button"
+                  @click="createQrCode"
+                  :disabled="!table"
+                >
                   {{ $t("hall.qr_code.confirm") }}
+                </Button>
+                <Button v-else color="red" type="button" @click="deleteQrCode">
+                  {{ $t("hall.qr_code.delete") }}
                 </Button>
               </div>
             </DialogPanel>
@@ -99,17 +115,18 @@ import { Button, Input } from "flowbite-vue";
 import { ArrowPathIcon } from "@heroicons/vue/24/solid";
 import { onMounted, ref, watch } from "vue";
 import QRCodeVue3 from "qrcode-vue3";
-import HallLocation from "../../models/HallLocation.ts";
+import HallLocation, { HallLocationItem } from "../../models/HallLocation.ts";
 import { debounce } from "lodash";
-
-const hall = ref<string>("");
-const table = ref<string>("");
-const hallValue = ref<string>("");
 
 const props = defineProps<{
   modelValue: boolean;
   qrCodes: string[];
+  hallLocation?: HallLocationItem;
 }>();
+
+const hall = ref<string>(props.hallLocation?.hall_id || "");
+const table = ref<string>(props.hallLocation?.name || "");
+const hallValue = ref<string>(props.hallLocation?.value || "");
 
 const emits = defineEmits<{
   "update:modelValue": [value: boolean];
@@ -131,6 +148,7 @@ const createQrCode = debounce(async () => {
     }).create();
     emits("update:modelValue", false);
     emits("update:qrCodes", [...props.qrCodes, hallValue.value]);
+    window.location.reload();
   } catch (e) {
     console.log(e);
   }
@@ -149,6 +167,31 @@ watch(hall, () => {
   getLink();
   table.value = "";
 });
-onMounted(getLink);
+
+const regenerateQrCode = () => {
+  getLink();
+  new HallLocation({
+    ...props.hallLocation,
+    value: hallValue.value,
+  })
+    .update()
+    .then(() => {
+      console.log("updated");
+      props.hallLocation.value = hallValue.value;
+    });
+};
+
+const deleteQrCode = () => {
+  new HallLocation({
+    ...props.hallLocation,
+  })
+    .delete()
+    .then(() => {
+      emits("update:modelValue", false);
+      window.location.reload();
+    });
+};
+
+onMounted(() => !props.hallLocation && getLink());
 </script>
 <style scoped></style>
